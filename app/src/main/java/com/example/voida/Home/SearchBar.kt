@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -95,8 +94,22 @@ import java.util.Locale
 fun SearchBar(){
 
     val context = LocalContext.current
-    val input = rememberTextFieldState()
+    var input by remember { mutableStateOf("") }
     val interactionSource = remember { MutableInteractionSource() }
+
+    val speechRecognizerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            val spokenText =
+                result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+            if (spokenText != null) {
+                input = spokenText  // Update prompt with recognized text
+            } else {
+                Toast.makeText(context, "음성인식에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    )
+
     Row(
         modifier = Modifier
             .padding(
@@ -104,13 +117,18 @@ fun SearchBar(){
                 vertical = 5.dp
             )
     ){
+
+        // Todo
+        // 1. check why BTF Not working
+        // => then almost done
         BasicTextField(
-            state = input,
+            value = input,
+            onValueChange = {input = it},
             textStyle = TextStyle(
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 15.sp,
             ),
-            decorator = @Composable{innerTextField ->
+//            decorator = @Composable{innerTextField ->
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -129,6 +147,8 @@ fun SearchBar(){
                     Spacer(modifier = Modifier
                         .width(5.dp))
 
+
+                    // TextField, using complicated way
                     Box(
                         modifier = Modifier
                             .border(
@@ -149,27 +169,32 @@ fun SearchBar(){
                         }
                     }
 
-                    Button(
-                        shape = RoundedCornerShape(4.dp),
-                        colors = ButtonColors(
-                            containerColor = DefaultSearchBar,
-                            contentColor = Color.Black,
-                            disabledContentColor = Color.Black,
-                            disabledContainerColor = DefaultSearchBar
-                        ),
-                        onClick = {},
 
-                        ){
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.search),
-                            contentDescription = "검색버튼",
-                        )
-                    }
 
                 }
             }
         )
+        Button(
+            modifier = Modifier
+                .height(45.dp)
+                .fillMaxWidth()
+                .weight(0.3f)
+                .padding(start = 5.dp),
+            shape = RoundedCornerShape(4.dp),
+            colors = ButtonColors(
+                containerColor = DefaultSearchBar,
+                contentColor = Color.Black,
+                disabledContentColor = Color.Black,
+                disabledContainerColor = DefaultSearchBar
+            ),
+            onClick = {},
 
+            ){
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.mic),
+                contentDescription = "검색버튼",
+            )
+        }
     }
 }
 
