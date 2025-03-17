@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Voida</string>
+    <string name="sample_eta">무료배송<br/>화요일 3/18 도착 예정</string>
+    <string name="sample_name">"특가" 어성초 천연비누 (어성초 자연유래 클렌징 비누) 천연 비누, 110g, 24개</string>
 </resources>
