@@ -19,7 +19,6 @@ fun Home(){
             ,text = "홈 화면입니다. 할인 상품과 추천 상품을 확인할 수 있습니다."
         )
         SearchBar()
-        SearchwithVocie()
     }
 }
 
