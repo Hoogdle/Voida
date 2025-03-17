@@ -122,13 +122,15 @@ fun SearchBar(){
         // 1. check why BTF Not working
         // => then almost done
         BasicTextField(
+
             value = input,
             onValueChange = {input = it},
             textStyle = TextStyle(
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 15.sp,
             ),
-//            decorator = @Composable{innerTextField ->
+                decorationBox = {innerTextField ->
+
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -157,7 +159,7 @@ fun SearchBar(){
                                 shape = RoundedCornerShape(4.dp)
                             )
                     ){
-                        if(input.text.isEmpty()){
+                        if(input.isEmpty()){
                             Text(
                                 text = "검색",
                                 color = Color(0x82828282)
@@ -256,7 +258,28 @@ fun SearchwithVocie(modifier: Modifier = Modifier) {
                             disabledContentColor = Color.Black,
                             disabledContainerColor = DefaultSearchBar
                         ),
-                        onClick = {},
+                        onClick = {
+                            if (ContextCompat.checkSelfPermission(
+                                    context,
+                                    Manifest.permission.RECORD_AUDIO
+                                ) == PackageManager.PERMISSION_GRANTED
+                            ) {
+                                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                                intent.putExtra(
+                                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                                )
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "음성인식 중..")
+                                speechRecognizerLauncher.launch(intent)
+                            } else {
+                                ActivityCompat.requestPermissions(
+                                    context as Activity,
+                                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                                    100
+                                )
+                            }
+                        },
 
                         ){
                         Icon(
