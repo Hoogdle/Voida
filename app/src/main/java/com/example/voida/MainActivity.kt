@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -44,7 +45,7 @@ import com.example.voida.ui.theme.VoidaTheme
 import androidx.compose.ui.geometry.Offset
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun    onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -62,7 +63,17 @@ class MainActivity : ComponentActivity() {
             var scale by remember { mutableStateOf(1f) }
             var offsetX by remember { mutableStateOf(0f) }
             var offsetY by remember { mutableStateOf(0f) }
+
+            val minScale = 1f
+            val maxScale = 4f
+
+            // Remember the initial offset
             var initialOffset by remember { mutableStateOf(Offset(0f, 0f)) }
+
+            // Coefficient for slowing down movement
+            val slowMovement = 0.5f
+
+            val scrollState = rememberScrollState()
 
             VoidaTheme {
 
@@ -91,10 +102,19 @@ class MainActivity : ComponentActivity() {
                                             selectedIndex = index
 
                                             // set level of scale seems like good 1 -> 2 -> 3
-                                            if(scale == 1f){
-                                                scale = 2f
-                                            } else {
-                                                scale = 1f
+
+                                            // Todo
+                                            // 1. set correct scale sequences
+                                            // 2. offsetX and Y setting
+                                            when(scale){
+                                                1f -> scale = 2f
+                                                2f -> scale = 3f
+                                                3f -> scale = 4f
+                                                else -> {
+                                                    scale = 1f
+                                                    offsetX = 0f
+                                                    offsetY = 0f
+                                                }
                                             }
                                         },
                                         icon =  {
@@ -140,11 +160,48 @@ class MainActivity : ComponentActivity() {
                             .pointerInput(Unit){
                                 detectTransformGestures{_, pan, _, _ ->
 
+                                    val newScale = scale
+                                    scale = newScale.coerceIn(minScale, maxScale)
 
+                                    // Calculate new offsets based on zoom and pan
+                                    val centerX = size.width / 2
+                                    val centerY = size.height / 2
+                                    val offsetXChange = (centerX - offsetX) * (newScale / scale - 1)
+                                    val offsetYChange = (centerY - offsetY) * (newScale / scale - 1)
+
+                                    // Calculate min and max offsets
+                                    val maxOffsetX = (size.width / 2) * (scale - 1)
+                                    val minOffsetX = -maxOffsetX
+                                    val maxOffsetY = (size.height / 2) * (scale - 1)
+                                    val minOffsetY = -maxOffsetY
+
+                                    // Update offsets while ensuring they stay within bounds
+                                    if (scale <= maxScale) {
+                                        offsetX = (offsetX + pan.x * scale * slowMovement + offsetXChange)
+                                            .coerceIn(minOffsetX, maxOffsetX)
+                                        offsetY = (offsetY + pan.y * scale * slowMovement + offsetYChange)
+                                            .coerceIn(minOffsetY, maxOffsetY)
+                                    }
+
+                                    // Store initial offset on pan
                                     if (pan != Offset(0f, 0f) && initialOffset == Offset(0f, 0f)) {
                                         initialOffset = Offset(offsetX, offsetY)
                                     }
                                 }
+                            }
+                            .pointerInput(Unit) {
+                                detectTapGestures(
+                                    onDoubleTap = {
+                                        // Reset scale and offset on double tap
+                                        if (scale != 1f) {
+                                            scale = 1f
+                                            offsetX = initialOffset.x
+                                            offsetY = initialOffset.y
+                                        } else {
+                                            scale = 2f
+                                        }
+                                    }
+                                )
                             }
                             .graphicsLayer {
                                 scaleX = scale
