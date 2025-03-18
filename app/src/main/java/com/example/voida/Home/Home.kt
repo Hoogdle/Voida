@@ -40,6 +40,7 @@ fun Home(
                 .padding(10.dp)
             ,text = "아래에 원하시는 상품 카테고리를 선택해주세요. 추천 상품을 조회할 수 있습니다."
         )
+        HomeCategoriesRow()
     }
 }
 

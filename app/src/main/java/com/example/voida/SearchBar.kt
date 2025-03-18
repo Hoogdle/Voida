@@ -109,7 +109,7 @@ fun SearchBar(){
                 ){
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.search),
-                        contentDescription = "검색버튼",
+                        contentDescription = "검색 입력 란",
                         tint = Color(0x82828282)
                     )
                     Spacer(modifier = Modifier
@@ -180,8 +180,9 @@ fun SearchBar(){
 
             ){
             Icon(
+                modifier = Modifier.weight(0.5f),
                 imageVector = ImageVector.vectorResource(R.drawable.mic),
-                contentDescription = "검색버튼",
+                contentDescription = "음성검색",
             )
         }
     }
