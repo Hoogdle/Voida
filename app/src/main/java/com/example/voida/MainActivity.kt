@@ -10,6 +10,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -75,10 +78,15 @@ class MainActivity : ComponentActivity() {
 
             val scrollState = rememberScrollState()
 
+            // Lens(zoom) variable
+            val interactionSource = remember{ MutableInteractionSource()}
+            val isPressed by interactionSource.collectIsPressedAsState()
+
+
+
             VoidaTheme {
 
                 Scaffold(
-
                     //  < bottom navigation bar
                     bottomBar = {
                         NavigationBar(
@@ -90,17 +98,19 @@ class MainActivity : ComponentActivity() {
                             contentColor = Color.Black,
                             containerColor = Color.White,
                         ) {
+
                             navItemList.forEachIndexed { index, navItem ->
                                 when(index){
                                     2 -> NavigationBarItem(
+                                        interactionSource = interactionSource,
                                         modifier = Modifier
                                             .height(35.dp)
                                             .padding(bottom = 15.dp)
                                         ,
                                         selected = selectedIndex == index,
                                         onClick = {
-                                            selectedIndex = index
 
+                                            selectedIndex = index
                                             // set level of scale seems like good 1 -> 2 -> 3
 
                                             // Todo

@@ -44,6 +44,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -76,6 +77,7 @@ fun SearchBar(){
         }
     )
 
+
     Row(
         modifier = Modifier
             .padding(
@@ -89,6 +91,11 @@ fun SearchBar(){
         // => then almost done
         BasicTextField(
 
+            modifier = Modifier
+                .weight(2.8f)
+                .clip(
+                    shape = RoundedCornerShape(10.dp)
+                ),
             value = input,
             onValueChange = {input = it},
             textStyle = TextStyle(
@@ -102,10 +109,10 @@ fun SearchBar(){
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .height(45.dp)
-                        .width(250.dp)
+                        .weight(4f)
                         .background(DefaultSearchBar)
                         .padding(10.dp)
-
+                        .clip(shape = RoundedCornerShape(20.dp))
                 ){
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.search),
@@ -122,8 +129,9 @@ fun SearchBar(){
                             .border(
                                 width = 1.dp,
                                 color = DefaultSearchBar,
-                                shape = RoundedCornerShape(4.dp)
-                            )
+                                shape = RoundedCornerShape(20.dp)
+                            ),
+
                     ){
                         if(input.isEmpty()){
                             Text(
@@ -145,10 +153,9 @@ fun SearchBar(){
         Button(
             modifier = Modifier
                 .height(45.dp)
-                .fillMaxWidth()
-                .weight(0.3f)
+                .weight(1f)
                 .padding(start = 5.dp),
-            shape = RoundedCornerShape(4.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonColors(
                 containerColor = DefaultSearchBar,
                 contentColor = Color.Black,
@@ -180,7 +187,7 @@ fun SearchBar(){
 
             ){
             Icon(
-                modifier = Modifier.weight(0.5f),
+                modifier = Modifier.size(20.dp),
                 imageVector = ImageVector.vectorResource(R.drawable.mic),
                 contentDescription = "음성검색",
             )
