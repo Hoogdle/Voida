@@ -39,7 +39,8 @@ fun Categories(){
                 onClick = {}
             ) {
                 Text(
-                    text = item.name // Fix it!
+                    text = item.name // Fix it! => data class 로 수정!, 중첩 클래스로 묶어서 다루는 게 좋을듯!
+                    // data class 중첩 가능! 생각해보기!
                 )
             }
         }
