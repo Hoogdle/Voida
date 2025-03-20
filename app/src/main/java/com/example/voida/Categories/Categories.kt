@@ -18,10 +18,10 @@ import com.example.voida.Categories.Data.BirthandKids
 import com.example.voida.Categories.Data.Fashion
 import com.example.voida.Categories.Data.Food
 import com.example.voida.Categories.Data.Kitchen
-import com.example.voida.Categories.Data.tmp
+import com.example.voida.Categories.Data.fashion
 import com.example.voida.ui.theme.DefaultSelectButton
 
-val FirstList = listOf(Fashion,Beauty,BirthandKids,Food,Kitchen)
+val FirstList = listOf(fashion)
 
 @Composable
 fun Categories(){
@@ -39,8 +39,7 @@ fun Categories(){
                 onClick = {}
             ) {
                 Text(
-                    text = item.name // Fix it! => data class 로 수정!, 중첩 클래스로 묶어서 다루는 게 좋을듯!
-                    // data class 중첩 가능! 생각해보기!
+                    text = item.name // follow the Clothes example.
                 )
             }
         }
