@@ -2,9 +2,11 @@ package com.example.voida.Categories.Data
 
 import com.example.voida.R
 
-val Beauty = object{
+class Beauty{
     val icon: Int = R.drawable.beauty
     val name: String = "Beauty"
 }
+
+val beauty = Beauty()
 
 

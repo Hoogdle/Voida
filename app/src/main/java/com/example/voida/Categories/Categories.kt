@@ -13,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import com.example.voida.Categories.Data.Beauty
-import com.example.voida.Categories.Data.BirthandKids
-import com.example.voida.Categories.Data.Fashion
-import com.example.voida.Categories.Data.Food
-import com.example.voida.Categories.Data.Kitchen
+import com.example.voida.Categories.Data.beauty
+import com.example.voida.Categories.Data.birthandKids
+
 import com.example.voida.Categories.Data.fashion
+import com.example.voida.Categories.Data.food
+import com.example.voida.Categories.Data.kitchen
 import com.example.voida.ui.theme.DefaultSelectButton
 
-val FirstList = listOf(fashion)
+val FirstList = listOf(fashion, fashion)
 
 @Composable
 fun Categories(){
@@ -39,7 +39,7 @@ fun Categories(){
                 onClick = {}
             ) {
                 Text(
-                    text = item.name // follow the Clothes example.
+                    text = item.name// make only one class as Frame and make instance by only that!
                 )
             }
         }
