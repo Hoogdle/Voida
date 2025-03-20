@@ -50,5 +50,5 @@ class Fashion {
 
 }
 
-val fashion = Fashion()
+val fashion = Category()
 
