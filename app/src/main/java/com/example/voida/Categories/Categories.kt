@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -54,11 +55,18 @@ val FirstList = listOf(fashion, beauty, birthAndKids, food, kitchen)
 fun Categories(
     modifier: Modifier
 ){
+
+    // can not use onStop()
     // selectedIndex 로 값을 저장하고 카테고리 박스 클릭시 이벤트 발생 -> 인덱스 설정 -> show up
     // selectedIndex 을 여러개 두어야..
     // 카테고리 화면을 나가면 selectedIndex를 초기화 해야만!
 
+    // 어차피 Nav를 통해야만 다른 화면으로 나갈 수 있음.
+    // Nav를 할 때 selectedIndex를 초기화 하는 방법도 좋고
+    // Nav 관련 특수 메서드로 selectedIndex를 초기화하는 방법도 좋아 보임.
+
     val selectedIndex by remember { mutableStateOf(listOf(-1,-1,-1,-1,-1)) }
+
 
     Column(
         modifier = Modifier
@@ -77,9 +85,23 @@ fun Categories(
             modifier = Modifier
 
         ) {
+            itemsIndexed(items = FirstList){
+                    index, item->
 
-            items(items = FirstList){
-                    item ->
+                    if (selectedIndex[0] == index){
+                        Notification(
+                            modifier = modifier,
+                            text = "${item.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                            // Todo
+                        )
+                        if (item.child != null){
+                            // use item.child[selectedIndex[1]]
+
+                            if(item.child[selectedIndex[1]].child != null){
+                                // use item.child[selectedIndex[1].child[selectedIndex[2]]
+                            }
+                        }
+                    }
                     Button(
                         colors = ButtonColors(
                             contentColor = Color.Black,
