@@ -1,10 +1,7 @@
-package com.example.voida.Categories.Data
-
+import com.example.voida.Categories.Data.Category
 import com.example.voida.R
 
-class BirthandKids{
-    val icon: Int = R.drawable.feeding_bottle
-    val name: String = "출산/유아동"
-}
-
-val birthandKids = BirthandKids()
+val birthAndKids = Category(
+    icon = R.drawable.feeding_bottle,
+    name = "출산/유아동"
+)

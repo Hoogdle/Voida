@@ -13,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import com.example.voida.Categories.Data.beauty
-import com.example.voida.Categories.Data.birthandKids
+import beauty
+import birthAndKids
 
 import com.example.voida.Categories.Data.fashion
-import com.example.voida.Categories.Data.food
 import com.example.voida.Categories.Data.kitchen
 import com.example.voida.ui.theme.DefaultSelectButton
+import food
 
-val FirstList = listOf(fashion, fashion)
+val FirstList = listOf(fashion, beauty, birthAndKids, food, kitchen)
 
 @Composable
 fun Categories(){
