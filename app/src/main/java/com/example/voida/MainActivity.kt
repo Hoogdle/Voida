@@ -46,6 +46,7 @@ import com.example.voida.Home.Home
 import com.example.voida.ui.theme.DefaultSearchBar
 import com.example.voida.ui.theme.VoidaTheme
 import androidx.compose.ui.geometry.Offset
+import com.example.voida.Categories.Categories
 
 class MainActivity : ComponentActivity() {
     override fun    onCreate(savedInstanceState: Bundle?) {
@@ -221,7 +222,10 @@ class MainActivity : ComponentActivity() {
                             }
 
                     ){
-                        Home(modifier = Modifier.padding(inner))
+                        ScreenWithBottomBar(
+                            modifier = Modifier.padding(inner),
+                            selectedIndex = selectedIndex
+                        )
                     }
                 }
             }
@@ -229,3 +233,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun ScreenWithBottomBar(
+    modifier: Modifier,
+    selectedIndex: Int
+){
+    when(selectedIndex){
+        0 -> Home(modifier = modifier)
+        1 -> Categories(modifier = modifier)
+    }
+}
