@@ -43,6 +43,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import beauty
 import birthAndKids
+import com.example.voida.Categories.Data.Category
+import com.example.voida.Categories.Data.SubCategory
 
 import com.example.voida.Categories.Data.fashion
 import com.example.voida.Categories.Data.kitchen
@@ -132,51 +134,108 @@ fun Categories(
                         )
                     }
 
-                if (index == selectedIndex[0]){
-                    Notification(
-                        modifier = Modifier,
-                        text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."
-                    )
-
-                    if(item.child != null){ // not error here
-                        Column {
-
-                                item.child.forEachIndexed { index, value ->
-                                    Button(
-                                        colors = ButtonColors(
-                                            contentColor = Color.Black,
-                                            containerColor = DefaultSelectButton,
-                                            disabledContentColor = Color.Black,
-                                            disabledContainerColor = DefaultSelectButton
-                                        ),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(80.dp)
-                                            .background(DefaultSelectButton),
-                                        shape = RectangleShape,
-                                        onClick = {
-                                            selectedIndex[1] = index
-                                        }
-                                    ){
-                                        Text(
-                                            modifier = Modifier
-                                                .weight(1f),
-                                            textAlign = TextAlign.Center,
-                                            text = value.name,
-                                            style = TextStyle(
-                                                fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-                                                fontSize = 20.sp
-                                            )
-                                        )
-                                    }
-                                }
-
-                            }
-                        }
-                    }
+                // use category selector with if conditions
+//                if (index == selectedIndex[0]){
+//                    Notification(
+//                        modifier = Modifier,
+//                        text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."
+//                    )
+//
+//                    if(item.child != null){ // not error here
+//                        listSubCategories(
+//                            child = item.child,
+//                            selectedIndex = selectedIndex
+//                        )
+//                    }
+//                }
 
                 Spacer(modifier = Modifier.padding(5.dp))
 
+            }
+        }
+    }
+}
+
+
+fun categorySelector(){
+
+}
+
+@Composable
+fun listSubCategories(
+    child: List<SubCategory>,
+    selectedIndex: MutableList<Int>,
+    listIndex: Int
+){
+    Column {
+
+        child.forEachIndexed { index, value ->
+            Button(
+                colors = ButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = DefaultSelectButton,
+                    disabledContentColor = Color.Black,
+                    disabledContainerColor = DefaultSelectButton
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .background(DefaultSelectButton),
+                shape = RectangleShape,
+                onClick = {
+                    selectedIndex[listIndex] = index
+                }
+            ){
+                Text(
+                    modifier = Modifier
+                        .weight(1f),
+                    textAlign = TextAlign.Center,
+                    text = value.name,
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                        fontSize = 20.sp
+                    )
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun listTerminalCategories(
+    terminalList: List<String>,
+    selectedIndex: MutableList<Int>,
+    listIndex: Int
+){
+    Column {
+        terminalList.forEachIndexed { index, value ->
+            Button(
+                colors = ButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = DefaultSelectButton,
+                    disabledContentColor = Color.Black,
+                    disabledContainerColor = DefaultSelectButton
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .background(DefaultSelectButton),
+                shape = RectangleShape,
+                onClick = {
+                    selectedIndex[listIndex] = index
+                }
+            ){
+                Text(
+                    modifier = Modifier
+                        .weight(1f),
+                    textAlign = TextAlign.Center,
+                    text = value,
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                        fontSize = 20.sp
+                    )
+                )
             }
         }
     }
