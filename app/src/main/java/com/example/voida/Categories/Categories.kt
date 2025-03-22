@@ -56,6 +56,7 @@ fun Categories(
     modifier: Modifier
 ){
 
+    // when call category from nav fun, put the  default paramrter as selectedIndexed(-1,-1,-1,-1,-1)
     // can not use onStop()
     // selectedIndex 로 값을 저장하고 카테고리 박스 클릭시 이벤트 발생 -> 인덱스 설정 -> show up
     // selectedIndex 을 여러개 두어야..
