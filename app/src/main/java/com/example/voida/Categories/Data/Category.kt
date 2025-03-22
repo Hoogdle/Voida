@@ -7,7 +7,7 @@ data class Category(
 )
 
 data class SubCategory(
-    val name: String? = null,
+    val name: String = "",
     val child: List<SubCategory>? = null,
     val isTerminal: Boolean = false,
     val terminalList: List<String>? = null

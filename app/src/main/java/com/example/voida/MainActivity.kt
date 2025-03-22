@@ -111,7 +111,6 @@ class MainActivity : ComponentActivity() {
                                         selected = selectedIndex == index,
                                         onClick = {
 
-                                            selectedIndex = index
                                             // set level of scale seems like good 1 -> 2 -> 3
 
                                             // Todo
@@ -134,7 +133,7 @@ class MainActivity : ComponentActivity() {
                                                 tint = Color.Black,
                                                 contentDescription = navItem.label,
 
-                                            )
+                                                )
                                         }
                                     )
 
@@ -163,7 +162,7 @@ class MainActivity : ComponentActivity() {
                     // bottom navigation bar>
 
                 ) {
-                    inner ->
+                        inner ->
                     Box(
                         modifier = Modifier
                             .padding(inner)
@@ -241,5 +240,8 @@ fun ScreenWithBottomBar(
     when(selectedIndex){
         0 -> Home(modifier = modifier)
         1 -> Categories(modifier = modifier)
+        3 -> {}
+        4 -> {}
+        else -> {}
     }
 }

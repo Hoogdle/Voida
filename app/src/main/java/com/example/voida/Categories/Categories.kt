@@ -24,8 +24,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,9 +68,7 @@ fun Categories(
     // Nav를 할 때 selectedIndex를 초기화 하는 방법도 좋고
     // Nav 관련 특수 메서드로 selectedIndex를 초기화하는 방법도 좋아 보임.
 
-    val selectedIndex by remember { mutableStateOf(listOf(-1,-1,-1,-1,-1)) }
-
-
+    val selectedIndex = remember{ mutableStateListOf(-1,-1,-1,-1,-1)}
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -89,20 +89,7 @@ fun Categories(
             itemsIndexed(items = FirstList){
                     index, item->
 
-                    if (selectedIndex[0] == index){
-                        Notification(
-                            modifier = modifier,
-                            text = "${item.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
-                            // Todo
-                        )
-                        if (item.child != null){
-                            // use item.child[selectedIndex[1]]
 
-                            if(item.child[selectedIndex[1]].child != null){
-                                // use item.child[selectedIndex[1].child[selectedIndex[2]]
-                            }
-                        }
-                    }
                     Button(
                         colors = ButtonColors(
                             contentColor = Color.Black,
@@ -116,7 +103,7 @@ fun Categories(
                             .background(DefaultSelectButton),
                         shape = RectangleShape,
                         onClick = {
-                            //for
+                            selectedIndex[0] = index
                         }
                     ) {
 
@@ -141,6 +128,48 @@ fun Categories(
 
                         )
                     }
+
+                if (index == selectedIndex[0]){
+                    Notification(
+                        modifier = Modifier,
+                        text = "'${item.name}'를 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                    )
+
+                    if(item.child != null){ // maybe error here!
+                        LazyColumn {
+                            itemsIndexed(items = item.child){
+                                index, item ->
+                                Button(
+                                    colors = ButtonColors(
+                                        contentColor = Color.Black,
+                                        containerColor = DefaultSelectButton,
+                                        disabledContentColor = Color.Black,
+                                        disabledContainerColor = DefaultSelectButton
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(80.dp)
+                                        .background(DefaultSelectButton),
+                                    shape = RectangleShape,
+                                    onClick = {
+                                        selectedIndex[1] = index
+                                    }
+                                ){
+                                    Text(
+                                        modifier = Modifier
+                                            .weight(1f),
+                                        textAlign = TextAlign.Center,
+                                        text = item.name,
+                                        style = TextStyle(
+                                            fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                                            fontSize = 20.sp
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.padding(5.dp))
 
             }
