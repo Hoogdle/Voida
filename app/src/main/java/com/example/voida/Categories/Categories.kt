@@ -68,6 +68,9 @@ fun Categories(
     // Nav를 할 때 selectedIndex를 초기화 하는 방법도 좋고
     // Nav 관련 특수 메서드로 selectedIndex를 초기화하는 방법도 좋아 보임.
 
+
+    // WTF LazyColumn!!!
+
     val selectedIndex = remember{ mutableStateListOf(-1,-1,-1,-1,-1)}
     Column(
         modifier = Modifier
@@ -132,44 +135,46 @@ fun Categories(
                 if (index == selectedIndex[0]){
                     Notification(
                         modifier = Modifier,
-                        text = "'${item.name}'를 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                        text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."
                     )
 
-                    if(item.child != null){ // maybe error here!
-                        LazyColumn {
-                            itemsIndexed(items = item.child){
-                                index, item ->
-                                Button(
-                                    colors = ButtonColors(
-                                        contentColor = Color.Black,
-                                        containerColor = DefaultSelectButton,
-                                        disabledContentColor = Color.Black,
-                                        disabledContainerColor = DefaultSelectButton
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(80.dp)
-                                        .background(DefaultSelectButton),
-                                    shape = RectangleShape,
-                                    onClick = {
-                                        selectedIndex[1] = index
-                                    }
-                                ){
-                                    Text(
+                    if(item.child != null){ // not error here
+                        Column {
+
+                                item.child.forEachIndexed { index, value ->
+                                    Button(
+                                        colors = ButtonColors(
+                                            contentColor = Color.Black,
+                                            containerColor = DefaultSelectButton,
+                                            disabledContentColor = Color.Black,
+                                            disabledContainerColor = DefaultSelectButton
+                                        ),
                                         modifier = Modifier
-                                            .weight(1f),
-                                        textAlign = TextAlign.Center,
-                                        text = item.name,
-                                        style = TextStyle(
-                                            fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-                                            fontSize = 20.sp
+                                            .fillMaxWidth()
+                                            .height(80.dp)
+                                            .background(DefaultSelectButton),
+                                        shape = RectangleShape,
+                                        onClick = {
+                                            selectedIndex[1] = index
+                                        }
+                                    ){
+                                        Text(
+                                            modifier = Modifier
+                                                .weight(1f),
+                                            textAlign = TextAlign.Center,
+                                            text = value.name,
+                                            style = TextStyle(
+                                                fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                                                fontSize = 20.sp
+                                            )
                                         )
-                                    )
+                                    }
                                 }
+
                             }
                         }
                     }
-                }
+
                 Spacer(modifier = Modifier.padding(5.dp))
 
             }
