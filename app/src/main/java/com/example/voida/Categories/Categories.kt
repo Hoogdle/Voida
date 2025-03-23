@@ -1,5 +1,6 @@
 package com.example.voida.Categories
-
+// Todo, (1) filter out index overflow in array (2) fix helper or terminal projection function.
+// 다른 화면 갔다오면 값들 모두 초기화 됨 => 신경 안 써도 됨!
 import android.graphics.Paint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
@@ -85,7 +86,7 @@ fun Categories(
     ){
         Notification(
             modifier = Modifier,
-            text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."
+            text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요. ${count.value} ${selectedIndex.toString()}" //Debugging
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -111,7 +112,10 @@ fun Categories(
                             .background(DefaultSelectButton),
                         shape = RectangleShape,
                         onClick = {
-                            selectedIndex[0] = index
+                            selectedIndex[count.value] = index
+                            count.value++
+
+                            // Todo, occur array index overflow, need to filter out it!
                         }
                     ) {
 
@@ -144,7 +148,6 @@ fun Categories(
                         text = "'${item.name}'를 선택하셨습니다. 원하는 상품 종류를 선택해주세요."
                     )
 
-                    count.value++
 
                     // there is no node that doesn't have any child.
                     if(item.child != null){ // not error here
@@ -161,32 +164,36 @@ fun Categories(
                         // error. 3/23
                         // child series start point
                         if(selectedIndex[1] != -1){
+                            Notification(
+                                modifier = Modifier,
+                                text = "${item.child[selectedIndex[1]].name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                            )
                             categorySelector(
                                 selected = item.child[selectedIndex[1]],
                                 selectedIndex = selectedIndex,
                                 listIndex = count
                             )
-                            if(selectedIndex[2] != -1){
-                                categorySelector(
-                                    selected = item.child[selectedIndex[2]],
-                                    selectedIndex = selectedIndex,
-                                    listIndex = count
-                                )
-                                if(selectedIndex[3] != -1){
-                                    categorySelector(
-                                        selected = item.child[selectedIndex[3]],
-                                        selectedIndex = selectedIndex,
-                                        listIndex = count
-                                    )
-                                    if(selectedIndex[4] != -1){
-                                        categorySelector(
-                                            selected = item.child[selectedIndex[4]],
-                                            selectedIndex = selectedIndex,
-                                            listIndex = count
-                                        )
-                                    }
-                                }
-                            }
+//                            if(selectedIndex[2] != -1 && selectedChild.child != null){
+//                                categorySelector(
+//                                    selected = item.child[selectedIndex[2]],
+//                                    selectedIndex = selectedIndex,
+//                                    listIndex = count
+//                                )
+//                                if(selectedIndex[3] != -1){
+//                                    categorySelector(
+//                                        selected = item.child[selectedIndex[3]],
+//                                        selectedIndex = selectedIndex,
+//                                        listIndex = count
+//                                    )
+//                                    if(selectedIndex[4] != -1){
+//                                        categorySelector(
+//                                            selected = item.child[selectedIndex[4]],
+//                                            selectedIndex = selectedIndex,
+//                                            listIndex = count
+//                                        )
+//                                    }
+//                                }
+//                            }
                         }
                     }
 
@@ -201,6 +208,8 @@ fun Categories(
 }
 
 // helper function, show the all contents of selected item
+// Todo, maybe error being here, not working to project terminal items..., or terminal project function has problem.
+// Todo, helper function or terminal projection function has problem!
 @Composable
 fun categorySelector(
     selected: SubCategory,
@@ -218,7 +227,7 @@ fun categorySelector(
         listTerminalCategories(
             terminalList = selected.terminalList,
             selectedIndex = selectedIndex,
-            listIndex = listIndex.value
+            listIndex = listIndex
         )
     }
 }
@@ -270,7 +279,7 @@ fun listSubCategories(
 fun listTerminalCategories(
     terminalList: List<String>,
     selectedIndex: MutableList<Int>,
-    listIndex: Int
+    listIndex: MutableState<Int>
 ){
     Column {
         terminalList.forEachIndexed { index, value ->
@@ -287,7 +296,7 @@ fun listTerminalCategories(
                     .background(DefaultSelectButton),
                 shape = RectangleShape,
                 onClick = {
-                    selectedIndex[listIndex] = index
+                    selectedIndex[listIndex.value] = index
                 }
             ){
                 Text(
