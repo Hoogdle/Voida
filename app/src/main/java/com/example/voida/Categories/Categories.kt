@@ -2,6 +2,7 @@ package com.example.voida.Categories
 // Todo, (1) filter out index overflow in array (2) fix helper or terminal projection function.
 // 다른 화면 갔다오면 값들 모두 초기화 됨 => 신경 안 써도 됨!
 import android.graphics.Paint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
@@ -168,6 +169,7 @@ fun Categories(
                                 modifier = Modifier,
                                 text = "${item.child[selectedIndex[1]].name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
                             )
+                            Log.i("debug","1")
                             categorySelector(
                                 selected = item.child[selectedIndex[1]],
                                 selectedIndex = selectedIndex,
@@ -208,22 +210,22 @@ fun Categories(
 }
 
 // helper function, show the all contents of selected item
-// Todo, maybe error being here, not working to project terminal items..., or terminal project function has problem.
-// Todo, helper function or terminal projection function has problem!
 @Composable
 fun categorySelector(
     selected: SubCategory,
     selectedIndex: MutableList<Int>, // CBR
     listIndex: MutableState<Int>, // affect to source data, CBR
 ){
-    if(selected.child != null && selected.isTerminal == false){
+    if(selected.child != null && selected.parentTerminal == false){
+        Log.i("debug","2")
         listSubCategories(
             child = selected.child,
             selectedIndex = selectedIndex,
             listIndex = listIndex
         )
     }
-    else if(selected.isTerminal == true && selected.terminalList != null){
+    else if(selected.parentTerminal == true && selected.terminalList != null){
+        Log.i("debug","3")
         listTerminalCategories(
             terminalList = selected.terminalList,
             selectedIndex = selectedIndex,
@@ -239,6 +241,8 @@ fun listSubCategories(
     selectedIndex: MutableList<Int>, // CBR
     listIndex: MutableState<Int> // affect to source data, CBR
 ){
+    Log.i("debug","4")
+
     Column {
         child.forEachIndexed { index, value ->
             Button(
