@@ -1,6 +1,6 @@
 package com.example.voida.Categories
-// Todo, (1) filter out index overflow in array (2) fix helper or terminal projection function.
-// 다른 화면 갔다오면 값들 모두 초기화 됨 => 신경 안 써도 됨!
+// Todo, (1) filter out index overflow in array, (2) put the list directly below of selected category
+// Todo, it seems to edit listSubCategories as hold all the contents, and change the selectedIndex and count from outside
 import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.background
@@ -169,7 +169,6 @@ fun Categories(
                                 modifier = Modifier,
                                 text = "${item.child[selectedIndex[1]].name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
                             )
-                            Log.i("debug","1")
                             categorySelector(
                                 selected = item.child[selectedIndex[1]],
                                 selectedIndex = selectedIndex,
@@ -217,7 +216,6 @@ fun categorySelector(
     listIndex: MutableState<Int>, // affect to source data, CBR
 ){
     if(selected.child != null && selected.parentTerminal == false){
-        Log.i("debug","2")
         listSubCategories(
             child = selected.child,
             selectedIndex = selectedIndex,
@@ -225,7 +223,6 @@ fun categorySelector(
         )
     }
     else if(selected.parentTerminal == true && selected.terminalList != null){
-        Log.i("debug","3")
         listTerminalCategories(
             terminalList = selected.terminalList,
             selectedIndex = selectedIndex,
@@ -241,7 +238,6 @@ fun listSubCategories(
     selectedIndex: MutableList<Int>, // CBR
     listIndex: MutableState<Int> // affect to source data, CBR
 ){
-    Log.i("debug","4")
 
     Column {
         child.forEachIndexed { index, value ->
@@ -273,8 +269,21 @@ fun listSubCategories(
                     )
                 )
             }
-        }
 
+            // Todo put the all contents in the listTerminalCategories, and change the control value from outside.
+            // Todo, selectedIndex[num], not constant number! => not hard codding!
+            if(selectedIndex[1] != -1){
+                Notification(
+                    modifier = Modifier,
+                    text = "${value.child?.get(selectedIndex[1])?.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                )
+                categorySelector(
+                    selected = item.child[selectedIndex[1]],
+                    selectedIndex = selectedIndex,
+                    listIndex = count
+                )
+            }
+        }
     }
 }
 
@@ -302,7 +311,7 @@ fun listTerminalCategories(
                 onClick = {
                     selectedIndex[listIndex.value] = index
                 }
-            ){
+            ) {
                 Text(
                     modifier = Modifier
                         .weight(1f),
@@ -314,6 +323,7 @@ fun listTerminalCategories(
                     )
                 )
             }
+
         }
     }
 }
