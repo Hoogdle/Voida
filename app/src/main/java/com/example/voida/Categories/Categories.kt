@@ -23,6 +23,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,8 @@ fun Categories(
     // WTF LazyColumn!!!
 
     val selectedIndex = remember{ mutableStateListOf(-1,-1,-1,-1,-1)}
+    var count = remember{ mutableStateOf(0) } // category counter 0 -> 1 -> 2 -> ..
+
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -135,19 +138,60 @@ fun Categories(
                     }
 
                 // use category selector with if conditions
-//                if (index == selectedIndex[0]){
-//                    Notification(
-//                        modifier = Modifier,
-//                        text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."
-//                    )
-//
-//                    if(item.child != null){ // not error here
-//                        listSubCategories(
-//                            child = item.child,
-//                            selectedIndex = selectedIndex
-//                        )
-//                    }
-//                }
+                if (index == selectedIndex[0]){
+                    Notification(
+                        modifier = Modifier,
+                        text = "'${item.name}'를 선택하셨습니다. 원하는 상품 종류를 선택해주세요."
+                    )
+
+                    count.value++
+
+                    // there is no node that doesn't have any child.
+                    if(item.child != null){ // not error here
+                        listSubCategories(
+                            child = item.child,
+                            selectedIndex = selectedIndex,
+                            listIndex = count
+                        )
+
+                        // has updated selectedIndex by listSubCategories
+
+
+
+                        // error. 3/23
+                        // child series start point
+                        if(selectedIndex[1] != -1){
+                            categorySelector(
+                                selected = item.child[selectedIndex[1]],
+                                selectedIndex = selectedIndex,
+                                listIndex = count
+                            )
+                            if(selectedIndex[2] != -1){
+                                categorySelector(
+                                    selected = item.child[selectedIndex[2]],
+                                    selectedIndex = selectedIndex,
+                                    listIndex = count
+                                )
+                                if(selectedIndex[3] != -1){
+                                    categorySelector(
+                                        selected = item.child[selectedIndex[3]],
+                                        selectedIndex = selectedIndex,
+                                        listIndex = count
+                                    )
+                                    if(selectedIndex[4] != -1){
+                                        categorySelector(
+                                            selected = item.child[selectedIndex[4]],
+                                            selectedIndex = selectedIndex,
+                                            listIndex = count
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // if there are no any child, just pass it.
+                }
 
                 Spacer(modifier = Modifier.padding(5.dp))
 
@@ -156,19 +200,37 @@ fun Categories(
     }
 }
 
-
-fun categorySelector(){
-
+// helper function, show the all contents of selected item
+@Composable
+fun categorySelector(
+    selected: SubCategory,
+    selectedIndex: MutableList<Int>, // CBR
+    listIndex: MutableState<Int>, // affect to source data, CBR
+){
+    if(selected.child != null && selected.isTerminal == false){
+        listSubCategories(
+            child = selected.child,
+            selectedIndex = selectedIndex,
+            listIndex = listIndex
+        )
+    }
+    else if(selected.isTerminal == true && selected.terminalList != null){
+        listTerminalCategories(
+            terminalList = selected.terminalList,
+            selectedIndex = selectedIndex,
+            listIndex = listIndex.value
+        )
+    }
 }
 
+// show the all contents of selected item
 @Composable
 fun listSubCategories(
     child: List<SubCategory>,
-    selectedIndex: MutableList<Int>,
-    listIndex: Int
+    selectedIndex: MutableList<Int>, // CBR
+    listIndex: MutableState<Int> // affect to source data, CBR
 ){
     Column {
-
         child.forEachIndexed { index, value ->
             Button(
                 colors = ButtonColors(
@@ -183,7 +245,8 @@ fun listSubCategories(
                     .background(DefaultSelectButton),
                 shape = RectangleShape,
                 onClick = {
-                    selectedIndex[listIndex] = index
+                    selectedIndex[listIndex.value] = index
+                    listIndex.value++
                 }
             ){
                 Text(
@@ -202,6 +265,7 @@ fun listSubCategories(
     }
 }
 
+// show the all contents of terminal data
 @Composable
 fun listTerminalCategories(
     terminalList: List<String>,
