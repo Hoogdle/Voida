@@ -1,6 +1,7 @@
 package com.example.voida.Categories
-// Todo, (1) filter out index overflow in array, (2) put the list directly below of selected category
-// Todo, it seems to edit listSubCategories as hold all the contents, and change the selectedIndex and count from outside
+
+// Todo, control selectedIndex correctly
+// Todo, control onClick method correctly(within that button area)
 import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.background
@@ -217,7 +218,10 @@ fun categorySelector(
     selectedIndex: MutableList<Int>, // CBR
     listIndex: MutableState<Int>, // affect to source data, CBR
 ){
+    Log.i("debug","1")
     if(selected.child != null && selected.parentTerminal == false){
+        Log.i("debug","2")
+
         listSubCategories(
             child = selected.child,
             selectedIndex = selectedIndex,
@@ -225,6 +229,8 @@ fun categorySelector(
         )
     }
     else if(selected.parentTerminal == true && selected.terminalList != null){
+        Log.i("debug","3")
+
         listTerminalCategories(
             terminalList = selected.terminalList,
             selectedIndex = selectedIndex,
@@ -241,7 +247,8 @@ fun listSubCategories(
     listIndex: MutableState<Int> // affect to source data, CBR
 ){
 
-    val tmpIndex = listIndex.value // using in below array indexing
+    val tmpIndex = listIndex.value - 1 // using in below array indexing
+
     Column {
         child.forEachIndexed { index, value ->
             Button(
@@ -273,23 +280,20 @@ fun listSubCategories(
                 )
             }
 
-            // Todo put the all contents in the listTerminalCategories, and change the control value from outside.
-            // Todo, selectedIndex[num], not constant number! => not hard codding!
+            if(tmpIndex > 0){
+                if(selectedIndex[tmpIndex] == index){
+                    Notification(
+                        modifier = Modifier,
+                        text = "${value.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                    )
+                    Log.i("debug","after clicked selectedIndex : ${selectedIndex}, tmpIndex : ${tmpIndex}")
 
-            // listIndex is being one-step future state
-
-            
-            if(selectedIndex[tmpIndex] == index){
-                Notification(
-                    modifier = Modifier,
-                    text = "${value.child?.get(selectedIndex[tmpIndex])?.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
-                )
-                categorySelector(
-                    // Todo, clear what is the value and parameter of categorySelector
-                    selected = value.child!![selectedIndex[tmpIndex]].child,
-                    selectedIndex = selectedIndex,
-                    listIndex = listIndex
-                )
+                    categorySelector(
+                        selected = value,
+                        selectedIndex = selectedIndex,
+                        listIndex = listIndex
+                    )
+                }
             }
         }
     }
