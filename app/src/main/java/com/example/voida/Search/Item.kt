@@ -1,9 +1,11 @@
+// Button has default 'content padding'!
 package com.example.voida.Search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -56,15 +58,15 @@ fun SearchItem(
         )
 ){
     LazyColumn(
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier
+            .padding(10.dp)
     ) {
         items(items = sample){ item ->
             Row(
                 modifier = Modifier
                     .background(color = DefaultSelectButton)
                     .padding(
-                        start = 10.dp,
-                        end = 10.dp
+                        end = 20.dp
                     )
             ) {
                 SearchItemImg(modifier = Modifier
@@ -81,6 +83,7 @@ fun SearchItem(
                     SearchItemButton()
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 
@@ -169,10 +172,11 @@ fun SearchItemText(
 fun SearchItemButton(){
     Row {
         Button(
+            contentPadding = PaddingValues(0.dp),
             modifier = Modifier
                 .weight(1f)
-                .height(50.dp)
-                .padding(2.dp)
+                .height(40.dp)
+                .padding(1.dp)
             ,
             colors = ButtonColors(
                 contentColor = Color.White,
@@ -184,19 +188,21 @@ fun SearchItemButton(){
             onClick = {}
         ) {
             Text(
-                text = "장바구니 담기",
+                maxLines = 1,
+                text = "장바구니",
                 style = TextStyle(
-                    fontSize = 10.sp,
+                    fontSize = 12.sp,
                     color = Color.White,
                     fontFamily = FontFamily(Font(R.font.inter_18_medium))
 
             ))
         }
         Button(
+            contentPadding = PaddingValues(0.dp),
             modifier = Modifier
                 .weight(1f)
-                .height(50.dp)
-                .padding(2.dp)
+                .height(40.dp)
+                .padding(1.dp)
             ,
             colors = ButtonColors(
                 contentColor = Color.White,
@@ -208,9 +214,10 @@ fun SearchItemButton(){
             onClick = {}
         ) {
             Text(
+                maxLines = 1,
                 text = "상품정보",
                 style = TextStyle(
-                    fontSize = 10.sp,
+                    fontSize = 12.sp,
                     color = Color.White,
                     fontFamily = FontFamily(Font(R.font.inter_18_medium))
 
