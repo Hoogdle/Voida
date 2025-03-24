@@ -1,8 +1,19 @@
 package com.example.voida.Categories
 
-// Todo, test with beauty contents.
+// Done 25/03/24
+// Todo, add animation
+// Todo, arrange the item as Real data in the coupang
+// Todo, Clear the debugging soruce
+
 import android.graphics.Paint
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
@@ -36,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -87,7 +99,7 @@ fun Categories(
     ){
         Notification(
             modifier = Modifier,
-            text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요. ${count.value} ${selectedIndex.toString()}" //Debugging
+            text = "카테고리 화면입니다. 원하는 상품 종류를 선택해주세요."//${count.value} ${selectedIndex.toString()}" //Debugging
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -255,9 +267,10 @@ fun listSubCategories(
     // every button click occur re-compose
     Log.i("debug","recompose")
 
-
+    var visible by remember { mutableStateOf(true) }
     val tmpIndex = listIndex.value - 1 // using in below array indexing
     val rememberedIndex = remember{tmpIndex}
+    val density = LocalDensity.current
 
     Column {
         child.forEachIndexed { index, value ->
@@ -311,10 +324,10 @@ fun listSubCategories(
             }
 
             if(tmpIndex > 0){
-                if(selectedIndex[tmpIndex] == index){
+                if(selectedIndex[rememberedIndex+1] == index){
                     Notification(
                         modifier = Modifier,
-                        text = "${value.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                        text = "'${value.name}'을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
                     )
                     Log.i("debug","after clicked selectedIndex : ${selectedIndex}, tmpIndex : ${tmpIndex}")
 
@@ -323,6 +336,7 @@ fun listSubCategories(
                         selectedIndex = selectedIndex,
                         listIndex = listIndex
                     )
+
                 }
             }
         }
@@ -367,5 +381,31 @@ fun listTerminalCategories(
             }
 
         }
+    }
+}
+
+@Composable
+fun CategoryAnimation(
+    content : @Composable() () -> Unit
+){
+
+    var visible by remember { mutableStateOf(true) }
+    val density = LocalDensity.current
+
+    AnimatedVisibility(
+        visible,
+        enter = slideInVertically {
+            // Slide in from 40 dp from the top.
+            with(density) { -40.dp.roundToPx() }
+        } + expandVertically(
+            // Expand from the top.
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            // Fade in with the initial alpha of 0.3f.
+            initialAlpha = 0.3f
+        ),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut()
+    ){
+        content()
     }
 }
