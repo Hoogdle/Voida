@@ -38,16 +38,27 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.speech.RecognizerIntent
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.voida.Search.Search
+import com.example.voida.Search.SearchItem
 import java.util.Locale
 
 
@@ -57,8 +68,28 @@ import java.util.Locale
 // 2. complete voice-search function
 
 @OptIn(ExperimentalMaterial3Api::class)
+
+
 @Composable
-fun SearchBar(){
+fun SearchBarWithResult(){
+    val navController = rememberNavController()
+
+    val input = remember { mutableStateOf("") }
+
+
+    Column {
+        NavHost(navController = navController, startDestination = "searchBar") {
+            composable("searchBar") { SearchBar(navController = navController, resultInput = input) }
+            composable("searchResult") { Search(input = input.value, navController = navController) }
+        }
+    }
+}
+
+@Composable
+fun SearchBar(
+    navController: NavController,
+    resultInput: MutableState<String>
+){
 
     val context = LocalContext.current
     var input by remember { mutableStateOf("") }
@@ -78,6 +109,7 @@ fun SearchBar(){
     )
 
 
+
     Row(
         modifier = Modifier
             .padding(
@@ -90,14 +122,20 @@ fun SearchBar(){
         // 1. check why BTF Not working
         // => then almost done
         BasicTextField(
-
+            keyboardActions = KeyboardActions(
+                onDone = {navController.navigate("searchResult")}
+            ),
+            singleLine = true,
             modifier = Modifier
                 .weight(2.8f)
                 .clip(
                     shape = RoundedCornerShape(10.dp)
-                ),
+                )
+            ,
             value = input,
-            onValueChange = {input = it},
+            onValueChange = {
+                input = it
+                resultInput.value = it },
             textStyle = TextStyle(
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 15.sp,

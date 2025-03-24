@@ -12,18 +12,43 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.voida.Home.SecondRow.HomeSecondRow
 import com.example.voida.Notification
+import com.example.voida.Search.Search
 import com.example.voida.SearchBar
+import com.example.voida.SearchBarWithResult
 
+@Composable
+fun HomeWithSearch(
+    modifier: Modifier
+){
+    val navController = rememberNavController()
+    val input = remember { mutableStateOf("") }
+
+    Column(/*?*/){
+        NavHost(navController = navController, startDestination = "home") {
+            composable("home") { Home(navController = navController, modifier = modifier, resultInput = input) }
+            composable("searchResult") { Search(input = input.value, navController = navController) }
+        }
+    }
+}
 
 @Composable
 fun Home(
-    modifier: Modifier
+    navController: NavController,
+    modifier: Modifier,
+    resultInput: MutableState<String>
 ){
 
     val scrollState = rememberScrollState()
@@ -39,7 +64,10 @@ fun Home(
                 .padding(10.dp)
             ,text = "홈 화면입니다. 할인 상품과 추천 상품을 확인할 수 있습니다."
         )
-        SearchBar()
+        SearchBar(
+            navController = navController,
+            resultInput = resultInput
+        )
         HomeSemiButton("판매자 특가")
         HomeFirstRow()
         Notification(
