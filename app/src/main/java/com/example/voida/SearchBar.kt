@@ -102,6 +102,8 @@ fun SearchBar(
                 result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
             if (spokenText != null) {
                 input = spokenText  // Update prompt with recognized text
+                resultInput.value = input
+                navController.navigate("searchResult")
             } else {
                 Toast.makeText(context, "음성인식에 실패하였습니다.", Toast.LENGTH_SHORT).show()
             }

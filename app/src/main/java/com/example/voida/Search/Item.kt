@@ -55,7 +55,9 @@ fun SearchItem(
             end = 10.dp
         )
 ){
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.padding(10.dp)
+    ) {
         items(items = sample){ item ->
             Row(
                 modifier = Modifier
@@ -91,8 +93,8 @@ fun SearchItemImg(
 ){
     Box(modifier = Modifier
         .clip(RoundedCornerShape(16.dp))
-        .width(190.dp)
-        .height(190.dp)
+        .width(170.dp)
+        .height(170.dp)
         .padding(2.dp)
     ){
         Image(
