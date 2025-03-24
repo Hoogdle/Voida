@@ -143,6 +143,7 @@ fun Categories(
                     }
 
                 // use category selector with if conditions
+                // count == 1
                 if (index == selectedIndex[0]){
                     Notification(
                         modifier = Modifier,
@@ -162,18 +163,19 @@ fun Categories(
 
 
 
-                        // error. 3/23
                         // child series start point
-                        if(selectedIndex[1] != -1){
-                            Notification(
-                                modifier = Modifier,
-                                text = "${item.child[selectedIndex[1]].name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
-                            )
-                            categorySelector(
-                                selected = item.child[selectedIndex[1]],
-                                selectedIndex = selectedIndex,
-                                listIndex = count
-                            )
+
+
+//                        if(selectedIndex[1] != -1){
+//                            Notification(
+//                                modifier = Modifier,
+//                                text = "${item.child[selectedIndex[1]].name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+//                            )
+//                            categorySelector(
+//                                selected = item.child[selectedIndex[1]],
+//                                selectedIndex = selectedIndex,
+//                                listIndex = count
+//                            )
 //                            if(selectedIndex[2] != -1 && selectedChild.child != null){
 //                                categorySelector(
 //                                    selected = item.child[selectedIndex[2]],
@@ -199,7 +201,7 @@ fun Categories(
                     }
 
                     // if there are no any child, just pass it.
-                }
+
 
                 Spacer(modifier = Modifier.padding(5.dp))
 
@@ -239,6 +241,7 @@ fun listSubCategories(
     listIndex: MutableState<Int> // affect to source data, CBR
 ){
 
+    val tmpIndex = listIndex.value // using in below array indexing
     Column {
         child.forEachIndexed { index, value ->
             Button(
@@ -272,15 +275,20 @@ fun listSubCategories(
 
             // Todo put the all contents in the listTerminalCategories, and change the control value from outside.
             // Todo, selectedIndex[num], not constant number! => not hard codding!
-            if(selectedIndex[1] != -1){
+
+            // listIndex is being one-step future state
+
+            
+            if(selectedIndex[tmpIndex] == index){
                 Notification(
                     modifier = Modifier,
-                    text = "${value.child?.get(selectedIndex[1])?.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
+                    text = "${value.child?.get(selectedIndex[tmpIndex])?.name}을 선택하셨습니다. 상품의 세부 종류를 선택해주세요."
                 )
                 categorySelector(
-                    selected = item.child[selectedIndex[1]],
+                    // Todo, clear what is the value and parameter of categorySelector
+                    selected = value.child!![selectedIndex[tmpIndex]].child,
                     selectedIndex = selectedIndex,
-                    listIndex = count
+                    listIndex = listIndex
                 )
             }
         }
