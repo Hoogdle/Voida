@@ -80,7 +80,7 @@ fun SearchBarWithResult(){
     Column {
         NavHost(navController = navController, startDestination = "searchBar") {
             composable("searchBar") { SearchBar(navController = navController, resultInput = input) }
-            composable("searchResult") { Search(input = input.value, navController = navController) }
+            composable("searchResult") { Search(input = input, navController = navController) }
         }
     }
 }

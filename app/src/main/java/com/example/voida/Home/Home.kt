@@ -39,7 +39,7 @@ fun HomeWithSearch(
     Column(/*?*/){
         NavHost(navController = navController, startDestination = "home") {
             composable("home") { Home(navController = navController, modifier = modifier, resultInput = input) }
-            composable("searchResult") { Search(input = input.value, navController = navController) }
+            composable("searchResult") { Search(input = input, navController = navController) }
         }
     }
 }
