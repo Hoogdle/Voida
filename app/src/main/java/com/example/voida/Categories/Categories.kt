@@ -1,7 +1,6 @@
 package com.example.voida.Categories
 
-// Todo, control selectedIndex correctly
-// Todo, control onClick method correctly(within that button area)
+// Todo, test with beauty contents.
 import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.background
@@ -114,6 +113,12 @@ fun Categories(
                             .background(DefaultSelectButton),
                         shape = RectangleShape,
                         onClick = {
+
+                            // when click first category, reset the selectedIndex
+                            for(i in 0..4){
+                                selectedIndex[i] = -1
+                                count.value = 0
+                            }
                             selectedIndex[count.value] = index
                             count.value++
 
@@ -247,7 +252,12 @@ fun listSubCategories(
     listIndex: MutableState<Int> // affect to source data, CBR
 ){
 
+    // every button click occur re-compose
+    Log.i("debug","recompose")
+
+
     val tmpIndex = listIndex.value - 1 // using in below array indexing
+    val rememberedIndex = remember{tmpIndex}
 
     Column {
         child.forEachIndexed { index, value ->
@@ -264,8 +274,28 @@ fun listSubCategories(
                     .background(DefaultSelectButton),
                 shape = RectangleShape,
                 onClick = {
-                    selectedIndex[listIndex.value] = index
-                    listIndex.value++
+                    var isClicked: Boolean = true
+
+                    Log.i("debug","rememberIndex : ${rememberedIndex}")
+                    if(selectedIndex[rememberedIndex+1] == index){
+                        Log.i("debug","onclick function")
+
+                        listIndex.value--
+                        for(i in (rememberedIndex+1) .. 4){
+                            selectedIndex[i] = -1
+                        }
+
+                        isClicked = false
+                    } else if(selectedIndex[rememberedIndex+1] != -1 && selectedIndex[rememberedIndex+1] != index){
+                        Log.i("debug","here!")
+                        selectedIndex[rememberedIndex+1] = index
+                        listIndex.value--
+                    }
+
+                    if(isClicked){
+                        selectedIndex[rememberedIndex+1] = index
+                        listIndex.value++
+                    }
                 }
             ){
                 Text(
