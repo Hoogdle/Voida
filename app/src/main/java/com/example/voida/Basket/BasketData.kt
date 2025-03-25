@@ -42,4 +42,14 @@ val basket3 = BasketData(
     num = 1
 )
 
-val basketList = listOf(basket1, basket2 , basket3)
+val basket4 = BasketData(
+    image = R.drawable.basket4,
+    eta = "무료배송 \n" +
+            "모레(목) 3/27 도착 예정",
+    score = "리뷰 5점(43명 리뷰)",
+    name = "오후의꽃 그린 화이트 한다발 그린 소재 생화 택배\n",
+    price = 14800,
+    num = 1
+)
+
+val basketList = listOf(basket1, basket2 , basket3, basket4)
