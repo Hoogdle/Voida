@@ -146,7 +146,6 @@ fun SearchItemText(
         // review block
         Row {
             Column {
-                Spacer(modifier = Modifier.height(2.3.dp))
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.star),
                     contentDescription = "리뷰 이미지",

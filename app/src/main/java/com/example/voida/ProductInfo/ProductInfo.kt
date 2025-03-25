@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -59,6 +62,7 @@ fun ProductInfo(
         ProductInfoItemInfo(item = item)
         Spacer(modifier = Modifier.height(15.dp))
         ProductInfoItemReviews(item = item)
+        ProductInfoButtonPack()
 
     }
 }
@@ -139,7 +143,6 @@ fun ProductInfoText(
         // review block
         Row {
             Column {
-                Spacer(modifier = Modifier.height(2.3.dp))
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.star),
                     contentDescription = "리뷰 이미지",
@@ -192,7 +195,7 @@ fun ProductInfoItemInfo(
             text = item.productInfo,
             style = TextStyle(
                 color = Color.Black,
-                fontFamily = FontFamily(Font(R.font.inter_18_medium)),
+                fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                 fontSize = 18.sp
             )
         )
@@ -232,12 +235,61 @@ fun ProductInfoItemReviews(
                 text = it.contents,
                 style = TextStyle(
                     color = Color.Black,
-                    fontFamily = FontFamily(Font(R.font.inter_18_medium)),
+                    fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                     fontSize = 18.sp
                 )
             )
             Spacer(modifier = Modifier.height(15.dp))
         }
     }
-
 }
+
+@Composable
+fun ProductInfoButtonPack(){
+    Row(
+        modifier = Modifier.padding(10.dp)
+    ){
+        ProductInfoButton(
+            text = "장바구니 담기",
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
+        ProductInfoButton(
+            text = "구매하기",
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
+    }
+}
+
+@Composable
+fun ProductInfoButton(
+    text: String,
+    modifier: Modifier
+){
+    Button(
+        shape = RoundedCornerShape(5.dp),
+        modifier = modifier
+            .height(50.dp),
+        onClick = {},
+        colors = ButtonColors(
+            containerColor = Color.Black,
+            contentColor = Color.White,
+            disabledContentColor = Color.White,
+            disabledContainerColor = Color.Black
+        ),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.inter_18_medium)),
+                fontSize = 15.sp
+            )
+        )
+    }
+}
+
