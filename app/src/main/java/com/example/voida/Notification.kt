@@ -35,7 +35,7 @@ fun Notification(
             style = TextStyle(
                 fontFamily = FontFamily(Font(R.font.inter_18_bold))
             ),
-            autoSize = TextAutoSize.StepBased(minFontSize = 15.sp, maxFontSize = 25.sp, stepSize = 1.sp)
+            autoSize = TextAutoSize.StepBased(minFontSize = 5.sp, maxFontSize = 20.sp, stepSize = 1.sp)
         )
     }
 

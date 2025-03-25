@@ -25,6 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.voida.Home.SecondRow.HomeSecondRow
 import com.example.voida.Notification
+import com.example.voida.ProductInfo.ProductInfo
+import com.example.voida.ProductInfo.productInfo
 import com.example.voida.Search.Search
 import com.example.voida.SearchBar
 import com.example.voida.SearchBarWithResult
@@ -40,6 +42,7 @@ fun HomeWithSearch(
         NavHost(navController = navController, startDestination = "home") {
             composable("home") { Home(navController = navController, modifier = modifier, resultInput = input) }
             composable("searchResult") { Search(input = input, navController = navController) }
+            composable("productInfo") { ProductInfo(productInfo) }
         }
     }
 }

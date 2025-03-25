@@ -37,12 +37,11 @@ val review3 = Review(
 )
 
 val productInfo = ProductInfoData(
-    image = R.drawable.productInfo1,
+    image = R.drawable.product_info1,
     eta = "무료배송\n" +
             "내일(일) 3/16 새벽 7시 전 도착 보장",
     score = "리뷰 4.5점(168,135명 리뷰)",
-    name = "프리미엄 가나 생쇼콜라 밀크앤오트 (냉동)\n" +
-            "\n",
+    name = "프리미엄 가나 생쇼콜라 밀크앤오트 (냉동)",
     price = 19000,
     productInfo = "디저트에 잘 어울리는 생쇼콜라 초콜릿입니다.\n" +
             "밀크 초콜릿이 함유되어 있으며, 향긋한 차 또는 커피에 곁들여 근사한 티타임을 가질 수 있습니다.\n" +

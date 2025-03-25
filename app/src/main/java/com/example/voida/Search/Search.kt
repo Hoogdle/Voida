@@ -54,6 +54,10 @@ fun Search(
             text = "'${tmpInput}' 검색결과 입니다."
         )
         SearchBar(navController = navController, resultInput = input)
-        SearchItem(searchSampleList)
+        SearchItem(
+            sample = searchSampleList,
+            navController = navController,
+            resultInput = input
+        )
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.voida.Product
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
@@ -55,7 +57,9 @@ fun SearchItem(
         .padding(
             start = 10.dp,
             end = 10.dp
-        )
+        ),
+    navController: NavController,
+    resultInput: MutableState<String>
 ){
     LazyColumn(
         modifier = Modifier
@@ -80,7 +84,10 @@ fun SearchItem(
                     .weight(1.3f)
                 ){
                     SearchItemText(item)
-                    SearchItemButton()
+                    SearchItemButton(
+                        navController = navController,
+                        resultInput = resultInput
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
@@ -169,7 +176,10 @@ fun SearchItemText(
 }
 
 @Composable
-fun SearchItemButton(){
+fun SearchItemButton(
+    navController: NavController,
+    resultInput: MutableState<String>
+){
     Row {
         Button(
             contentPadding = PaddingValues(0.dp),
@@ -211,7 +221,9 @@ fun SearchItemButton(){
                 disabledContainerColor = Color.Black
             ),
             shape = RoundedCornerShape(15.dp),
-            onClick = {}
+            onClick = {
+                navController.navigate("productInfo")
+            }
         ) {
             Text(
                 maxLines = 1,
@@ -220,7 +232,6 @@ fun SearchItemButton(){
                     fontSize = 12.sp,
                     color = Color.White,
                     fontFamily = FontFamily(Font(R.font.inter_18_medium))
-
                 )
             )
         }
