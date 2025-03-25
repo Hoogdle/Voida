@@ -46,6 +46,7 @@ import com.example.voida.Home.Home
 import com.example.voida.ui.theme.DefaultSearchBar
 import com.example.voida.ui.theme.VoidaTheme
 import androidx.compose.ui.geometry.Offset
+import com.example.voida.Basket.Basket
 import com.example.voida.Categories.Categories
 import com.example.voida.Home.HomeWithSearch
 
@@ -240,7 +241,7 @@ fun ScreenWithBottomBar(
     when(selectedIndex){
         0 -> HomeWithSearch(modifier = modifier)
         1 -> Categories(modifier = modifier)
-        3 -> {}
+        3 -> Basket(modifier = modifier)
         4 -> {}
         else -> {}
     }
