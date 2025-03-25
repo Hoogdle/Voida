@@ -1,6 +1,7 @@
 // Button has default 'content padding'!
 package com.example.voida.Search
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -50,14 +51,13 @@ val sample1: Product = Product(
 
 val searchSampleList = listOf(sample1, sample1, sample1, sample1, sample1)
 
+
+
+// Todo, manage buttons size
 @Composable
 fun SearchItem(
     sample: List<Product>,
-    modifier: Modifier = Modifier
-        .padding(
-            start = 10.dp,
-            end = 10.dp
-        ),
+    modifier: Modifier = Modifier,
     navController: NavController,
     resultInput: MutableState<String>
 ){
@@ -81,10 +81,9 @@ fun SearchItem(
                 )
                 Column(modifier = Modifier
                     .padding(5.dp)
-                    .weight(1.3f)
                 ){
                     SearchItemText(item)
-                    SearchItemButton(
+                    SearchButtonPack(
                         navController = navController,
                         resultInput = resultInput
                     )
@@ -105,7 +104,7 @@ fun SearchItemImg(
         .clip(RoundedCornerShape(16.dp))
         .width(170.dp)
         .height(170.dp)
-        .padding(2.dp)
+        .padding(5.dp)
     ){
         Image(
             modifier = Modifier.clip(RoundedCornerShape(16.dp)),
@@ -120,6 +119,9 @@ fun SearchItemImg(
 fun SearchItemText(
     item: Product
 ){
+    val formater: DecimalFormat = DecimalFormat("#,###,###,###,###")
+    val price: String = formater.format(item.price)
+
     Column {
         Text(
             modifier = Modifier.width(150.dp),
@@ -164,7 +166,7 @@ fun SearchItemText(
         }
 
         Text(
-            text = item.price.toString() + "원",
+            text = price + "원",
             style = TextStyle(
                 color = Color.Black,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
@@ -176,16 +178,16 @@ fun SearchItemText(
 
 @Composable
 fun SearchItemButton(
+    modifier: Modifier,
     navController: NavController,
     resultInput: MutableState<String>
 ){
     Row {
         Button(
             contentPadding = PaddingValues(0.dp),
-            modifier = Modifier
-                .weight(1f)
-                .height(40.dp)
-                .padding(1.dp)
+            modifier = modifier
+                .height(35.dp)
+                .padding(2.dp)
             ,
             colors = ButtonColors(
                 contentColor = Color.White,
@@ -193,7 +195,7 @@ fun SearchItemButton(
                 disabledContentColor = Color.White,
                 disabledContainerColor = Color.Black
             ),
-            shape = RoundedCornerShape(15.dp),
+            shape = RoundedCornerShape(5.dp),
             onClick = {}
         ) {
             Text(
@@ -208,10 +210,9 @@ fun SearchItemButton(
         }
         Button(
             contentPadding = PaddingValues(0.dp),
-            modifier = Modifier
-                .weight(1f)
-                .height(40.dp)
-                .padding(1.dp)
+            modifier = modifier
+                .height(35.dp)
+                .padding(2.dp)
             ,
             colors = ButtonColors(
                 contentColor = Color.White,
@@ -219,7 +220,7 @@ fun SearchItemButton(
                 disabledContentColor = Color.White,
                 disabledContainerColor = Color.Black
             ),
-            shape = RoundedCornerShape(15.dp),
+            shape = RoundedCornerShape(5.dp),
             onClick = {
                 navController.navigate("productInfo")
             }
@@ -234,5 +235,55 @@ fun SearchItemButton(
                 )
             )
         }
+    }
+}
+
+
+@Composable
+fun SearchButtonPack(
+    navController: NavController,
+    resultInput: MutableState<String>
+){
+    Row(){
+        SearchButton(
+            onClickAction = {},
+            text = "장바구니",
+            modifier = Modifier.weight(1f)
+        )
+        SearchButton(
+            onClickAction = {
+                navController.navigate("productInfo")
+            },
+            text = "상품정보",
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Composable
+fun SearchButton(
+    onClickAction: () -> Unit,
+    text: String,
+    modifier: Modifier
+){
+    Button(
+        modifier = modifier
+            .height(35.dp)
+            .padding(2.dp),
+        shape = RoundedCornerShape(5.dp),
+        contentPadding = PaddingValues(0.dp),
+        onClick = {
+            onClickAction()
+        },
+        colors = ButtonColors(
+            contentColor = Color.White,
+            containerColor = Color.Black,
+            disabledContentColor = Color.White,
+            disabledContainerColor = Color.Black
+        )
+    ) {
+        Text(
+            text = text
+        )
     }
 }

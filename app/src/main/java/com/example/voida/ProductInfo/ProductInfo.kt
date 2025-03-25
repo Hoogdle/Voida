@@ -1,5 +1,6 @@
 package com.example.voida.ProductInfo
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -117,6 +118,9 @@ fun ProductInfoText(
     item: ProductInfoData,
     modifier: Modifier
 ){
+
+    val formater: DecimalFormat = DecimalFormat("#,###,###,###,###")
+    val price: String = formater.format(item.price)
     Column(modifier = modifier){
         Text(
             modifier = Modifier.width(150.dp),
@@ -161,7 +165,7 @@ fun ProductInfoText(
         }
 
         Text(
-            text = item.price.toString() + "원",
+            text = price + "원",
             style = TextStyle(
                 color = Color.Black,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
@@ -175,6 +179,7 @@ fun ProductInfoText(
 fun ProductInfoItemInfo(
     item: ProductInfoData
 ){
+
     Column(
         modifier = Modifier.padding(10.dp)
     ){
