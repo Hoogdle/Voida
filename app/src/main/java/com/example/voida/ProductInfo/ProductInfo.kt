@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,21 +37,29 @@ import com.example.voida.Search.SearchItemButton
 import com.example.voida.Search.SearchItemImg
 import com.example.voida.Search.SearchItemText
 import com.example.voida.ui.theme.DefaultSelectButton
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun ProductInfo(
     item: ProductInfoData
 ){
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
+            .verticalScroll(scrollState)
     ){
         Notification(
             modifier = Modifier.padding(10.dp),
             text = "‘${item.name}’ 상품 화면입니다. 요약된 상품 정보와 리뷰를 제공받을 수 있습니다. 상품구매를 원하시면 최하단의 ‘장바구니 버튼’ 또는 ‘구매하기’ 버튼을 눌러주세요."
         )
         ProductInfoItem(item)
+        Spacer(modifier = Modifier.height(15.dp))
+        ProductInfoItemInfo(item = item)
+        Spacer(modifier = Modifier.height(15.dp))
+        ProductInfoItemReviews(item = item)
+
     }
 }
 
@@ -60,16 +71,28 @@ fun ProductInfoItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .background(color = DefaultSelectButton)
+            .background(color = DefaultSelectButton),
     ){
-        ProductInfoImg(item)
-        ProductInfoText(item)
+        ProductInfoImg(
+            item = item,
+            modifier = Modifier
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Column {
+            Spacer(modifier = Modifier.height(20.dp))
+            ProductInfoText(
+                item = item,
+                modifier = Modifier
+            )
+        }
     }
 }
 
 @Composable
 fun ProductInfoImg(
-    item: ProductInfoData
+    item: ProductInfoData,
+    modifier: Modifier
 ){
     Box(modifier = Modifier
         .clip(RoundedCornerShape(16.dp))
@@ -87,9 +110,10 @@ fun ProductInfoImg(
 
 @Composable
 fun ProductInfoText(
-    item: ProductInfoData
+    item: ProductInfoData,
+    modifier: Modifier
 ){
-    Column {
+    Column(modifier = modifier){
         Text(
             modifier = Modifier.width(150.dp),
             maxLines = 2,
@@ -145,11 +169,75 @@ fun ProductInfoText(
 }
 
 @Composable
-fun ProductInfoItemInfo(){
-
+fun ProductInfoItemInfo(
+    item: ProductInfoData
+){
+    Column(
+        modifier = Modifier.padding(10.dp)
+    ){
+        Text(
+            text = "상품정보",
+            style = TextStyle(
+                color = Color.Black,
+                fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                fontSize = 18.sp
+            )
+        )
+        HorizontalDivider(
+            color = Color.Black,
+            thickness = 2.dp
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        Text(
+            text = item.productInfo,
+            style = TextStyle(
+                color = Color.Black,
+                fontFamily = FontFamily(Font(R.font.inter_18_medium)),
+                fontSize = 18.sp
+            )
+        )
+    }
 }
 
 @Composable
-fun ProductInfoItemReviews(){
+fun ProductInfoItemReviews(
+    item: ProductInfoData
+){
+    Column(
+        modifier = Modifier.padding(12.dp)
+    ){
+        Text(
+            text = "리뷰정보",
+            style = TextStyle(
+                color = Color.Black,
+                fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                fontSize = 18.sp
+            )
+        )
+        HorizontalDivider(
+            color = Color.Black,
+            thickness = 2.dp
+        )
+        Spacer(modifier= Modifier.height(8.dp))
+        item.reviewInfo.forEach {
+            Text(
+                text = it.title,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontFamily = FontFamily(Font(R.font.inter_18_bold)),
+                    fontSize = 18.sp
+                )
+            )
+            Text(
+                text = it.contents,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontFamily = FontFamily(Font(R.font.inter_18_medium)),
+                    fontSize = 18.sp
+                )
+            )
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+    }
 
 }
