@@ -67,7 +67,7 @@ fun Basket(
             BasketItem(it)
             Spacer(modifier = Modifier.height(10.dp))
 
-            price += it.price * it.num
+            price += it.price * it.num.value
         }
 
         BasketPayButton(
@@ -89,7 +89,7 @@ fun BasketItem(
             BasketText(
                 item = item
             )
-            BasketButtonPack()
+            BasketButtonPack(item = item)
         }
     }
 }
@@ -163,7 +163,7 @@ fun BasketText(
         }
 
         Text(
-            text = price + "원" + "(${item.num}개)",
+            text = price + "원" + "(${item.num.value}개)",
             style = TextStyle(
                 color = Color.Black,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
@@ -174,15 +174,22 @@ fun BasketText(
 }
 
 @Composable
-fun BasketButtonPack(){
+fun BasketButtonPack(
+    item: BasketData
+){
     Row(){
+        // 상품 정보 변경 버튼
         BasketButton(
             text = "상품정보",
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            item = item,
         )
+        
+        // 개수 변경 버튼
         BasketButton(
             text = "개수변경",
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            item = item,
         )
     }
 }
@@ -190,7 +197,8 @@ fun BasketButtonPack(){
 @Composable
 fun BasketButton(
     text: String,
-    modifier: Modifier
+    modifier: Modifier,
+    item: BasketData,
 ){
     Button(
         modifier = modifier
