@@ -23,7 +23,11 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -36,6 +40,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.voida.Notification
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
@@ -47,6 +52,9 @@ fun Basket(
 ){
     val scrollState = rememberScrollState()
     var price = 0
+
+    var openDialog = remember{ mutableStateOf(false) }
+    var itemIndex = remember{ mutableStateOf(-1) }
 
     Column(
         modifier = Modifier
@@ -63,11 +71,16 @@ fun Basket(
         )
         Spacer(modifier = Modifier.height(15.dp))
 
-        basketList.forEach {
-            BasketItem(it)
+        basketList.forEachIndexed {index, item ->
+            BasketItem(
+                item = item,
+                openDialog = openDialog,
+                itemIndex = itemIndex,
+                index = index
+            )
             Spacer(modifier = Modifier.height(10.dp))
 
-            price += it.price * it.num.value
+            price += item.price * item.num.value
         }
 
         BasketPayButton(
@@ -75,11 +88,26 @@ fun Basket(
             price = price
         )
     }
+
+    // end of Column area
+    if(openDialog.value){
+        Dialog(
+            // if touch outside of dialog, dismiss it.(for debugging use it)
+            onDismissRequest = {
+                openDialog.value = false
+            }
+        ) {
+            BasketNumChangeDialog(basketList[itemIndex.value])
+        }
+    }
 }
 
 @Composable
 fun BasketItem(
-    item: BasketData
+    item: BasketData,
+    openDialog: MutableState<Boolean>,
+    itemIndex: MutableState<Int>,
+    index: Int
 ){
     Row(
         modifier = Modifier.background(color = DefaultSelectButton)
@@ -89,7 +117,12 @@ fun BasketItem(
             BasketText(
                 item = item
             )
-            BasketButtonPack(item = item)
+            BasketButtonPack(
+                item = item,
+                openDialog = openDialog,
+                itemIndex = itemIndex,
+                index = index
+            )
         }
     }
 }
@@ -175,7 +208,10 @@ fun BasketText(
 
 @Composable
 fun BasketButtonPack(
-    item: BasketData
+    item: BasketData,
+    openDialog: MutableState<Boolean>,
+    itemIndex: MutableState<Int>,
+    index: Int
 ){
     Row(){
         // 상품 정보 변경 버튼
@@ -183,6 +219,7 @@ fun BasketButtonPack(
             text = "상품정보",
             modifier = Modifier.weight(1f),
             item = item,
+            onClick = {}
         )
         
         // 개수 변경 버튼
@@ -190,6 +227,10 @@ fun BasketButtonPack(
             text = "개수변경",
             modifier = Modifier.weight(1f),
             item = item,
+            onClick = {
+                openDialog.value = true
+                itemIndex.value = index
+            }
         )
     }
 }
@@ -199,6 +240,7 @@ fun BasketButton(
     text: String,
     modifier: Modifier,
     item: BasketData,
+    onClick: () -> Unit,
 ){
     Button(
         modifier = modifier
@@ -206,7 +248,9 @@ fun BasketButton(
             .padding(2.dp),
         shape = RoundedCornerShape(5.dp),
         contentPadding = PaddingValues(0.dp),
-        onClick = {},
+        onClick = {
+            onClick()
+        },
         colors = ButtonColors(
             contentColor = Color.White,
             containerColor = Color.Black,
