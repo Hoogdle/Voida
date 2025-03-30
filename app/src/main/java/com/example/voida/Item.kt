@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.voida.ui.theme.SystemETAColor
+import com.example.voida.ui.theme.SystemTextColor
 
 @Composable
 fun Item(
@@ -57,7 +59,7 @@ fun Item(
         Text(
             text = product.eta,
             style = TextStyle(
-                color = Color.LightGray,
+                color = SystemETAColor,
                 )
         )
 
@@ -68,6 +70,7 @@ fun Item(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.star),
                     contentDescription = "리뷰 이미지",
+                    tint = SystemTextColor
                 )
             }
 
@@ -75,7 +78,7 @@ fun Item(
             Text(
                 text = product.score,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_regular))
                 )
             )
@@ -86,7 +89,7 @@ fun Item(
             overflow = TextOverflow.Ellipsis,
             text = product.name,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                 fontSize = 20.sp
             )
@@ -96,7 +99,7 @@ fun Item(
         Text(
             text = price + "원",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 24.sp
             )

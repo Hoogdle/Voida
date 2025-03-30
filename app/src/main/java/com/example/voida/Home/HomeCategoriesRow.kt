@@ -26,6 +26,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSearchBar
+import com.example.voida.ui.theme.SystemIconColor
+import com.example.voida.ui.theme.SystemSearchBar
+import com.example.voida.ui.theme.SystemTextColor
 
 val sampleList = listOf("뷰티","식품","스포츠/레저","가전/디지털","헬스/건강식품")
 @Composable
@@ -45,7 +48,7 @@ fun HomeCategoriesRow(
                     start = 10.dp,
                     end = 10.dp
                 )
-                .background(color = DefaultSearchBar)
+                .background(color = SystemSearchBar)
                 .clip(shape = RoundedCornerShape(15.dp))
         ){
             items(items = categoryList){
@@ -59,6 +62,7 @@ fun HomeCategoriesRow(
                         ,
                         text = item,
                         style = TextStyle(
+                            color = SystemTextColor,
                             fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                         )
                     )
@@ -68,7 +72,7 @@ fun HomeCategoriesRow(
                 Icon(
                     painterResource(R.drawable.right_arrow),
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = SystemTextColor
                 )
 
 

@@ -18,6 +18,7 @@ import com.example.voida.Notification
 import com.example.voida.Product
 import com.example.voida.R
 import com.example.voida.SearchBar
+import com.example.voida.ui.theme.SystemBackGround
 
 
 // Todo, control exception according to user input
@@ -39,7 +40,7 @@ fun Search(
 ){
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White)
+        .background(SystemBackGround)
     ){
         val tmpInput = remember {input.value}
 

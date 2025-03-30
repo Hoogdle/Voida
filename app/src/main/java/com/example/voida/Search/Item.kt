@@ -38,6 +38,13 @@ import androidx.navigation.NavController
 import com.example.voida.Product
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
+import com.example.voida.ui.theme.SystemBackGround
+import com.example.voida.ui.theme.SystemButtonColor
+import com.example.voida.ui.theme.SystemButtonTextColor
+import com.example.voida.ui.theme.SystemETAColor
+import com.example.voida.ui.theme.SystemSelectButton
+import com.example.voida.ui.theme.SystemSelectedText
+import com.example.voida.ui.theme.SystemTextColor
 
 val sample1: Product = Product(
     image = R.drawable.search1,
@@ -68,7 +75,7 @@ fun SearchItem(
         items(items = sample){ item ->
             Row(
                 modifier = Modifier
-                    .background(color = DefaultSelectButton)
+                    .background(color = SystemSelectButton)
                     .padding(
                         end = 20.dp
                     )
@@ -129,7 +136,7 @@ fun SearchItemText(
             overflow = TextOverflow.Ellipsis,
             text = item.name,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 20.sp
             )
@@ -139,7 +146,7 @@ fun SearchItemText(
         Text(
             text = item.eta,
             style = TextStyle(
-                color = Color.LightGray,
+                color = SystemETAColor,
                 fontSize = 11.sp
             )
         )
@@ -151,6 +158,7 @@ fun SearchItemText(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.star),
                     contentDescription = "리뷰 이미지",
+                    tint = SystemTextColor
                 )
             }
 
@@ -158,7 +166,7 @@ fun SearchItemText(
             Text(
                 text = item.score,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                     fontSize = 10.sp
                 )
@@ -168,7 +176,7 @@ fun SearchItemText(
         Text(
             text = price + "원",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 24.sp
             )
@@ -190,10 +198,10 @@ fun SearchItemButton(
                 .padding(2.dp)
             ,
             colors = ButtonColors(
-                contentColor = Color.White,
-                containerColor = Color.Black,
-                disabledContentColor = Color.White,
-                disabledContainerColor = Color.Black
+                contentColor = SystemButtonTextColor,
+                containerColor = SystemButtonColor,
+                disabledContentColor = SystemButtonTextColor,
+                disabledContainerColor = SystemButtonColor
             ),
             shape = RoundedCornerShape(5.dp),
             onClick = {}
@@ -203,7 +211,7 @@ fun SearchItemButton(
                 text = "장바구니",
                 style = TextStyle(
                     fontSize = 12.sp,
-                    color = Color.White,
+                    color = SystemButtonTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_medium))
 
             ))
@@ -215,10 +223,10 @@ fun SearchItemButton(
                 .padding(2.dp)
             ,
             colors = ButtonColors(
-                contentColor = Color.White,
-                containerColor = Color.Black,
-                disabledContentColor = Color.White,
-                disabledContainerColor = Color.Black
+                contentColor = SystemButtonTextColor,
+                containerColor = SystemButtonColor,
+                disabledContentColor = SystemButtonTextColor,
+                disabledContainerColor = SystemButtonColor
             ),
             shape = RoundedCornerShape(5.dp),
             onClick = {
@@ -230,7 +238,7 @@ fun SearchItemButton(
                 text = "상품정보",
                 style = TextStyle(
                     fontSize = 12.sp,
-                    color = Color.White,
+                    color = SystemButtonTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_medium))
                 )
             )
@@ -276,10 +284,10 @@ fun SearchButton(
             onClickAction()
         },
         colors = ButtonColors(
-            contentColor = Color.White,
-            containerColor = Color.Black,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.Black
+            contentColor = SystemButtonTextColor,
+            containerColor = SystemButtonColor,
+            disabledContentColor = SystemButtonTextColor,
+            disabledContainerColor = SystemButtonColor
         )
     ) {
         Text(

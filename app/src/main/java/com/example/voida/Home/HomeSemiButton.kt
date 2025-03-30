@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSearchBar
+import com.example.voida.ui.theme.SystemIconColor
+import com.example.voida.ui.theme.SystemSearchBar
+import com.example.voida.ui.theme.SystemTextColor
 
 @Composable
 fun HomeSemiButton(
@@ -37,8 +40,8 @@ fun HomeSemiButton(
         Card(
             colors = CardColors(
                 containerColor = Color.Transparent,
-                contentColor = Color.Black,
-                disabledContentColor = Color.Black,
+                contentColor = SystemTextColor,
+                disabledContentColor = SystemTextColor,
                 disabledContainerColor = Color.Transparent
                 ),
             modifier = Modifier
@@ -58,10 +61,10 @@ fun HomeSemiButton(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.right_arrow),
                     contentDescription = "검색버튼",
-                    tint = Color.Black,
+                    tint = SystemTextColor,
                     modifier = Modifier.background(
                         shape = CircleShape,
-                        color = DefaultSearchBar
+                        color = SystemSearchBar
                     )
                 )
             }

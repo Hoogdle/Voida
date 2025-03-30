@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.voida.ui.theme.DefaultNotify
+import com.example.voida.ui.theme.SystemNotify
+import com.example.voida.ui.theme.SystemTextColor
 
 @Composable
 fun Notification(
@@ -28,11 +30,12 @@ fun Notification(
     Column(modifier = modifier){
         BasicText(
             modifier = Modifier
-                .background(color = DefaultNotify)
+                .background(color = SystemNotify)
                 .fillMaxWidth()
                 .padding(all = 10.dp),
             text = text,
             style = TextStyle(
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold))
             ),
             autoSize = TextAutoSize.StepBased(minFontSize = 5.sp, maxFontSize = 20.sp, stepSize = 1.sp)

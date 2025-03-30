@@ -1,5 +1,6 @@
 package com.example.voida.Basket
 
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,23 +33,31 @@ import com.example.voida.Notification
 import com.example.voida.ProductInfo.ProductInfoData
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
+import com.example.voida.ui.theme.SystemButtonColor
+import com.example.voida.ui.theme.SystemButtonTextColor
+import com.example.voida.ui.theme.SystemSelectButton
+import com.example.voida.ui.theme.SystemTextColor
 
 
 //Todo, finish the basket
 @Composable
 fun BasketNumChangeDialog(
-    item: BasketData
+    item: BasketData,
+    isChanged: MutableState<Boolean>
 ){
     Column(
         modifier = Modifier
-            .padding(10.dp)
+            .fillMaxWidth()
     ){
         Notification(
             modifier = Modifier,
             text = "'${item.name}'의 상품 개수를 변경합니다. 현재 개수는 ${item.num.value}개 입니다."
         )
         Spacer(modifier = Modifier.height(20.dp))
-        ChangingBox(item = item)
+        ChangingBox(
+            item = item,
+            isChanged = isChanged
+        )
     }
 
 
@@ -54,22 +65,28 @@ fun BasketNumChangeDialog(
 
 @Composable
 fun ChangingBox(
-    item: BasketData
+    item: BasketData,
+    isChanged: MutableState<Boolean>
 ){
+    // not use remember
+    //var boxNum = MutableState<Int>
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(color = DefaultSelectButton)
+            .fillMaxWidth()
+            .background(color = SystemSelectButton)
             .padding(
-                start = 50.dp,
-                end = 50.dp,
-                top = 10.dp,
-                bottom = 10.dp
+                10.dp
             )
     ){
+        Spacer(modifier = Modifier.height(20.dp))
         NumOfProduct(item = item)
         Spacer(Modifier.height(15.dp))
-        BasketNumChangeButtonPack(item = item)
+        BasketNumChangeButtonPack(
+            item = item,
+            isChanged = isChanged,
+            boxNum = 2
+        )
     }
 }
 
@@ -81,7 +98,7 @@ fun NumOfProduct(
     Text(
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .background(color = Color.White)
+            .background(color = SystemButtonTextColor)
             .padding(
                 start = 80.dp,
                 end = 80.dp,
@@ -91,34 +108,46 @@ fun NumOfProduct(
         ,
         text = "${item.num.value}개",
         style = TextStyle(
-            color = Color.Black,
+            color = SystemTextColor,
             fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-            fontSize = 18.sp
+            fontSize = 25.sp
         )
     )
 }
 
 @Composable
 fun BasketNumChangeButtonPack(
-    item: BasketData
+    item: BasketData,
+    isChanged: MutableState<Boolean>,
+    boxNum: Int
 ){
+
     Column(){
         Row {
             BasketNumChangeButton(
                 text = "감소",
                 modifier = Modifier.weight(1f),
-                item = item
+                item = item,
+                onClick = {
+                    //boxNum -= 1
+                }
             )
             BasketNumChangeButton(
                 text = "증가",
                 modifier = Modifier.weight(1f),
-                item = item
+                item = item,
+                onClick = {
+                    item.num.value += 1
+                }
             )
         }
         BasketNumChangeButton(
             text = "변경완료",
             modifier = Modifier.fillMaxWidth(),
-            item = item
+            item = item,
+            onClick = {
+                isChanged.value = true
+            }
         )
     }
 }
@@ -127,7 +156,8 @@ fun BasketNumChangeButtonPack(
 fun BasketNumChangeButton(
     text: String,
     modifier: Modifier,
-    item: BasketData
+    item: BasketData,
+    onClick: () -> Unit,
 ){
     Button(
         modifier = modifier
@@ -135,12 +165,14 @@ fun BasketNumChangeButton(
             .padding(2.dp),
         shape = RoundedCornerShape(5.dp),
         contentPadding = PaddingValues(0.dp),
-        onClick = {},
+        onClick = {
+            onClick()
+        },
         colors = ButtonColors(
-            contentColor = Color.White,
-            containerColor = Color.Black,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.Black
+            contentColor = SystemButtonTextColor,
+            containerColor = SystemButtonColor,
+            disabledContentColor = SystemButtonTextColor,
+            disabledContainerColor = SystemButtonColor
         )
     ) {
         Text(

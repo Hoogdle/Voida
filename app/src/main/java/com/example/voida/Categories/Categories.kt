@@ -62,13 +62,22 @@ import com.example.voida.Categories.Data.Category
 import com.example.voida.Categories.Data.SubCategory
 
 import com.example.voida.Categories.Data.fashion
+import com.example.voida.Categories.Data.homeAppliances
+import com.example.voida.Categories.Data.homeInterior
+import com.example.voida.Categories.Data.houseHoldItems
 import com.example.voida.Categories.Data.kitchen
 import com.example.voida.Notification
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
+import com.example.voida.ui.theme.SystemBackGround
+import com.example.voida.ui.theme.SystemButtonColor
+import com.example.voida.ui.theme.SystemButtonTextColor
+import com.example.voida.ui.theme.SystemSelectButton
+import com.example.voida.ui.theme.SystemSelectedText
+import com.example.voida.ui.theme.SystemTextColor
 import food
 
-val FirstList = listOf(fashion, beauty, birthAndKids, food, kitchen)
+val FirstList = listOf(fashion, beauty, birthAndKids, food, kitchen, houseHoldItems, homeInterior, homeAppliances)
 
 @Composable
 fun Categories(
@@ -93,7 +102,7 @@ fun Categories(
 
     Column(
         modifier = Modifier
-            .background(Color.White)
+            .background(SystemBackGround)
             .fillMaxSize()
             .padding(10.dp)
     ){
@@ -114,10 +123,10 @@ fun Categories(
 
                     Button(
                         colors = ButtonColors(
-                            contentColor = Color.Black,
-                            containerColor = DefaultSelectButton,
-                            disabledContentColor = Color.Black,
-                            disabledContainerColor = DefaultSelectButton
+                            contentColor = SystemSelectedText,
+                            containerColor = SystemSelectButton,
+                            disabledContentColor = SystemSelectedText,
+                            disabledContainerColor = SystemSelectButton
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -154,7 +163,8 @@ fun Categories(
                             text = item.name,
                             style = TextStyle(
                                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-                                fontSize = 20.sp
+                                fontSize = 20.sp,
+                                color = SystemTextColor
                             )
 
                         )
@@ -276,10 +286,10 @@ fun listSubCategories(
         child.forEachIndexed { index, value ->
             Button(
                 colors = ButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = DefaultSelectButton,
-                    disabledContentColor = Color.Black,
-                    disabledContainerColor = DefaultSelectButton
+                    contentColor = SystemSelectedText,
+                    containerColor = SystemSelectButton,
+                    disabledContentColor = SystemSelectedText,
+                    disabledContainerColor = SystemSelectButton
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -318,7 +328,8 @@ fun listSubCategories(
                     text = value.name,
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
+                        color = SystemTextColor
                     )
                 )
             }
@@ -354,10 +365,10 @@ fun listTerminalCategories(
         terminalList.forEachIndexed { index, value ->
             Button(
                 colors = ButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = DefaultSelectButton,
-                    disabledContentColor = Color.Black,
-                    disabledContainerColor = DefaultSelectButton
+                    contentColor = SystemButtonTextColor,
+                    containerColor = SystemSelectButton,
+                    disabledContentColor = SystemButtonTextColor,
+                    disabledContainerColor = SystemSelectButton
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -375,7 +386,8 @@ fun listTerminalCategories(
                     text = value,
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.inter_18_bold)),
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
+                        color = SystemTextColor
                     )
                 )
             }

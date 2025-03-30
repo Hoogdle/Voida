@@ -30,6 +30,7 @@ import com.example.voida.ProductInfo.productInfo
 import com.example.voida.Search.Search
 import com.example.voida.SearchBar
 import com.example.voida.SearchBarWithResult
+import com.example.voida.ui.theme.SystemBackGround
 
 @Composable
 fun HomeWithSearch(
@@ -59,7 +60,7 @@ fun Home(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = SystemBackGround)
             .verticalScroll(scrollState)
     ) {
         Notification(

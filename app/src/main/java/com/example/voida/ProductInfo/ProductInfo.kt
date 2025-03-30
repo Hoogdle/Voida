@@ -41,6 +41,12 @@ import com.example.voida.Search.SearchItemButton
 import com.example.voida.Search.SearchItemImg
 import com.example.voida.Search.SearchItemText
 import com.example.voida.ui.theme.DefaultSelectButton
+import com.example.voida.ui.theme.SystemBackGround
+import com.example.voida.ui.theme.SystemButtonColor
+import com.example.voida.ui.theme.SystemButtonTextColor
+import com.example.voida.ui.theme.SystemETAColor
+import com.example.voida.ui.theme.SystemSelectButton
+import com.example.voida.ui.theme.SystemTextColor
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
@@ -51,7 +57,7 @@ fun ProductInfo(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = SystemBackGround)
             .verticalScroll(scrollState)
     ){
         Notification(
@@ -76,7 +82,7 @@ fun ProductInfoItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .background(color = DefaultSelectButton),
+            .background(color = SystemSelectButton),
     ){
         ProductInfoImg(
             item = item,
@@ -128,7 +134,7 @@ fun ProductInfoText(
             overflow = TextOverflow.Ellipsis,
             text = item.name,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 20.sp
             )
@@ -138,7 +144,7 @@ fun ProductInfoText(
         Text(
             text = item.eta,
             style = TextStyle(
-                color = Color.LightGray,
+                color = SystemETAColor,
                 fontSize = 11.sp
             )
         )
@@ -150,6 +156,7 @@ fun ProductInfoText(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.star),
                     contentDescription = "리뷰 이미지",
+                    tint = SystemTextColor
                 )
             }
 
@@ -157,7 +164,7 @@ fun ProductInfoText(
             Text(
                 text = item.score,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                     fontSize = 10.sp
                 )
@@ -167,7 +174,7 @@ fun ProductInfoText(
         Text(
             text = price + "원",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 24.sp
             )
@@ -186,20 +193,20 @@ fun ProductInfoItemInfo(
         Text(
             text = "상품정보",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 18.sp
             )
         )
         HorizontalDivider(
-            color = Color.Black,
+            color = SystemTextColor,
             thickness = 2.dp
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = item.productInfo,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                 fontSize = 18.sp
             )
@@ -217,13 +224,13 @@ fun ProductInfoItemReviews(
         Text(
             text = "리뷰정보",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 18.sp
             )
         )
         HorizontalDivider(
-            color = Color.Black,
+            color = SystemTextColor,
             thickness = 2.dp
         )
         Spacer(modifier= Modifier.height(8.dp))
@@ -231,7 +238,7 @@ fun ProductInfoItemReviews(
             Text(
                 text = it.title,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                     fontSize = 18.sp
                 )
@@ -239,7 +246,7 @@ fun ProductInfoItemReviews(
             Text(
                 text = it.contents,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                     fontSize = 18.sp
                 )
@@ -280,17 +287,17 @@ fun ProductInfoButton(
             .height(50.dp),
         onClick = {},
         colors = ButtonColors(
-            containerColor = Color.Black,
-            contentColor = Color.White,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.Black
+            containerColor = SystemButtonColor,
+            contentColor = SystemButtonTextColor,
+            disabledContentColor = SystemButtonTextColor,
+            disabledContainerColor = SystemButtonColor
         ),
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
             text = text,
             style = TextStyle(
-                color = Color.White,
+                color = SystemButtonTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 15.sp
             )

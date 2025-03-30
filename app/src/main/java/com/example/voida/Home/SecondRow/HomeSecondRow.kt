@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.voida.Home.samples
 import com.example.voida.Item
 import com.example.voida.R
+import com.example.voida.ui.theme.SystemTextColor
 
 val sampleSecond1: Product = Product(
     image = R.drawable.home_2_1,
@@ -96,7 +97,7 @@ fun HomeSecondRowItem(
             overflow = TextOverflow.Ellipsis,
             text = product.name,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                 fontSize = 20.sp
             )
@@ -106,7 +107,7 @@ fun HomeSecondRowItem(
         Text(
             text = price + "원",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 24.sp
             )

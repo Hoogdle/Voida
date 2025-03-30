@@ -49,6 +49,8 @@ import androidx.compose.ui.geometry.Offset
 import com.example.voida.Basket.Basket
 import com.example.voida.Basket.basketList
 import com.example.voida.Categories.Categories
+import com.example.voida.HighContrast.HighContrast
+import com.example.voida.HighContrast.highContrastList
 import com.example.voida.Home.HomeWithSearch
 
 class MainActivity : ComponentActivity() {
@@ -243,7 +245,10 @@ fun ScreenWithBottomBar(
         0 -> HomeWithSearch(modifier = modifier)
         1 -> Categories(modifier = modifier)
         3 -> Basket(modifier = modifier, basketList = basketList)
-        4 -> {}
+        4 -> HighContrast(
+            modifier = modifier,
+            highContrastList = highContrastList
+        )
         else -> {}
     }
 }

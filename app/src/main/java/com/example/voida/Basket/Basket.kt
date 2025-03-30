@@ -44,6 +44,12 @@ import androidx.compose.ui.window.Dialog
 import com.example.voida.Notification
 import com.example.voida.R
 import com.example.voida.ui.theme.DefaultSelectButton
+import com.example.voida.ui.theme.SystemBackGround
+import com.example.voida.ui.theme.SystemButtonColor
+import com.example.voida.ui.theme.SystemButtonTextColor
+import com.example.voida.ui.theme.SystemETAColor
+import com.example.voida.ui.theme.SystemSelectButton
+import com.example.voida.ui.theme.SystemTextColor
 
 @Composable
 fun Basket(
@@ -54,12 +60,13 @@ fun Basket(
     var price = 0
 
     var openDialog = remember{ mutableStateOf(false) }
+    var isChanged = remember{ mutableStateOf(false) }
     var itemIndex = remember{ mutableStateOf(-1) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = SystemBackGround)
             .padding(10.dp)
             .verticalScroll(scrollState)
 
@@ -91,13 +98,18 @@ fun Basket(
 
     // end of Column area
     if(openDialog.value){
+        val tmpNum = remember{basketList[itemIndex.value].num.value}
         Dialog(
             // if touch outside of dialog, dismiss it.(for debugging use it)
             onDismissRequest = {
                 openDialog.value = false
             }
         ) {
-            BasketNumChangeDialog(basketList[itemIndex.value])
+            BasketNumChangeDialog(
+                basketList[itemIndex.value],
+                isChanged
+            )
+
         }
     }
 }
@@ -110,7 +122,7 @@ fun BasketItem(
     index: Int
 ){
     Row(
-        modifier = Modifier.background(color = DefaultSelectButton)
+        modifier = Modifier.background(color = SystemSelectButton)
     ){
         BasketImg(item)
         Column {
@@ -159,7 +171,7 @@ fun BasketText(
             overflow = TextOverflow.Ellipsis,
             text = item.name,
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 20.sp
             )
@@ -169,7 +181,7 @@ fun BasketText(
         Text(
             text = item.eta,
             style = TextStyle(
-                color = Color.LightGray,
+                color = SystemETAColor,
                 fontSize = 11.sp
             )
         )
@@ -188,7 +200,7 @@ fun BasketText(
             Text(
                 text = item.score,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = SystemTextColor,
                     fontFamily = FontFamily(Font(R.font.inter_18_regular)),
                     fontSize = 10.sp
                 )
@@ -198,7 +210,7 @@ fun BasketText(
         Text(
             text = price + "원" + "(${item.num.value}개)",
             style = TextStyle(
-                color = Color.Black,
+                color = SystemTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_medium)),
                 fontSize = 24.sp
             )
@@ -252,10 +264,10 @@ fun BasketButton(
             onClick()
         },
         colors = ButtonColors(
-            contentColor = Color.White,
-            containerColor = Color.Black,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.Black
+            contentColor = SystemButtonTextColor,
+            containerColor = SystemButtonColor,
+            disabledContentColor = SystemButtonTextColor,
+            disabledContainerColor = SystemButtonColor
         )
     ) {
         Text(
@@ -281,16 +293,16 @@ fun BasketPayButton(
         contentPadding = PaddingValues(0.dp),
         onClick = {},
         colors = ButtonColors(
-            contentColor = Color.White,
-            containerColor = Color.Black,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.Black
+            contentColor = SystemButtonTextColor,
+            containerColor = SystemButtonColor,
+            disabledContentColor = SystemButtonTextColor,
+            disabledContainerColor = SystemButtonColor
         )
     ) {
         Text(
             text = "${resultPrice}원 결제하기",
             style = TextStyle(
-                color = Color.White,
+                color = SystemButtonTextColor,
                 fontFamily = FontFamily(Font(R.font.inter_18_bold)),
                 fontSize = 18.sp
             )

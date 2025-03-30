@@ -59,6 +59,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.voida.Search.Search
 import com.example.voida.Search.SearchItem
+import com.example.voida.ui.theme.SystemSearchBar
+import com.example.voida.ui.theme.SystemSearchHelper
+import com.example.voida.ui.theme.SystemTextColor
 import java.util.Locale
 
 
@@ -150,14 +153,14 @@ fun SearchBar(
                     modifier = Modifier
                         .height(45.dp)
                         .weight(4f)
-                        .background(DefaultSearchBar)
+                        .background(SystemSearchBar)
                         .padding(10.dp)
                         .clip(shape = RoundedCornerShape(20.dp))
                 ){
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.search),
                         contentDescription = "검색 입력 란",
-                        tint = Color(0x82828282)
+                        tint = SystemSearchHelper
                     )
                     Spacer(modifier = Modifier
                         .width(5.dp))
@@ -166,17 +169,13 @@ fun SearchBar(
                     // TextField, using complicated way
                     Box(
                         modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = DefaultSearchBar,
-                                shape = RoundedCornerShape(20.dp)
-                            ),
+
 
                     ){
                         if(input.isEmpty()){
                             Text(
                                 text = "검색",
-                                color = Color(0x82828282)
+                                color = SystemSearchHelper
                             )
                         }
                         Column {
@@ -197,10 +196,10 @@ fun SearchBar(
                 .padding(start = 5.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonColors(
-                containerColor = DefaultSearchBar,
-                contentColor = Color.Black,
-                disabledContentColor = Color.Black,
-                disabledContainerColor = DefaultSearchBar
+                containerColor = SystemSearchBar,
+                contentColor = SystemTextColor,
+                disabledContentColor = SystemTextColor,
+                disabledContainerColor = SystemSearchBar
             ),
             onClick = {
                 if (ContextCompat.checkSelfPermission(
